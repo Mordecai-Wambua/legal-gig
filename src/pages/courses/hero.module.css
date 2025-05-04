@@ -87,7 +87,34 @@
   cursor: pointer;
 }
 
-.btn:hover {
+.hero_btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(44, 23, 196, 0.4);
+}
+
+@media (max-width: 1200px) {
+  .hero_image {
+    flex: 1;
+    padding-right: 0px;
+  }
+
+  .hero_text {
+    padding-left: 0px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero_content {
+    flex-direction: column;
+  }
+
+  .hero_image {
+    flex: 1;
+    padding-right: 0px;
+    width: 300px;
+  }
+
+  .hero_text h1 {
+    font-size: 2rem;
+  }
 }

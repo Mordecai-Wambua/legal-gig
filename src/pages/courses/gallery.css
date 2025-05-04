@@ -66,3 +66,21 @@
   margin-bottom: 15px;
   font-size: 0.9rem;
 }
+
+.btn {
+  display: inline-block;
+  padding: 12px 30px;
+  background: linear-gradient(135deg, rgb(34, 0, 255), #4b3dba);
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(44, 23, 196, 0.4);
+}

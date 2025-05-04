@@ -125,20 +125,6 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .hero-content {
-    flex-direction: column;
-  }
-
-  .hero-image,
-  .hero-text {
-    padding: 20px;
-    text-align: center;
-  }
-
-  .hero-text h1 {
-    font-size: 2rem;
-  }
-
   .course-card {
     padding: 20px;
   }

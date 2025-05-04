@@ -9,7 +9,7 @@ export default function Hero() {
           <img
             src="/courses/Collection.jpeg"
             alt="Dispute Resolution Illustration"
-            style={{ mixBlendMode: "multiply", width: 400, height: 400 }}
+            style={{ mixBlendMode: "multiply" }}
             loading="lazy"
           />
         </div>

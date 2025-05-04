@@ -151,7 +151,7 @@ export default function MediationPage() {
                 </p>
 
                 <button
-                  className="btn"
+                  className={styles.hero_btn}
                   onClick={() => {
                     setOpen(true), setModalCourse("Student/Junior Member");
                   }}
@@ -180,7 +180,7 @@ export default function MediationPage() {
                   <br />
                 </p>
                 <button
-                  className="btn"
+                  className={styles.hero_btn}
                   onClick={() => {
                     setOpen(true), setModalCourse("Associate Member");
                   }}
@@ -206,7 +206,7 @@ export default function MediationPage() {
                   industry events
                 </p>
                 <button
-                  className="btn"
+                  className={styles.hero_btn}
                   onClick={() => {
                     setOpen(true), setModalCourse("Corporate Member");
                   }}
@@ -235,7 +235,7 @@ export default function MediationPage() {
                   <br />
                 </p>
                 <button
-                  className="btn"
+                  className={styles.hero_btn}
                   onClick={() => {
                     setOpen(true), setModalCourse("Full Member");
                   }}
