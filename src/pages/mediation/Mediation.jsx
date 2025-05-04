@@ -1,5 +1,4 @@
 import Layout from "../../layout";
-import "./mediation.css";
 import styles from "./mediation.module.css";
 import MediationModal from "./MediationModal";
 import { useState, useEffect } from "react";

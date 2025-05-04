@@ -3,14 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlayCircle } from "@fortawesome/free-solid-svg-icons";
 
 import Layout from "../../layout.jsx";
-import { courseData } from "./courses.js"; // your course data array
+import { courseData } from "./courses.js";
 import Hero from "./Hero";
 
 const Gallery = lazy(() => import("./Gallery"));
 const FAQs = lazy(() => import("./FAQs"));
 
 import "./courses.css";
-import styles from "./loading.module.css"; // CSS module for loading spinner
+import styles from "./loading.module.css";
 
 export default function CoursesPage() {
   const [activeVideo, setActiveVideo] = useState(null);
