@@ -10,6 +10,7 @@ const links = [
   { ref: "/services", name: "Services" },
   { ref: "/news", name: "News" },
   { ref: "/courses", name: "Courses" },
+  { ref: "/mediation", name: "Mediation" },
   { ref: "/contact", name: "Contact" },
 ];
 
@@ -42,7 +43,7 @@ export default function Navbar() {
     "navbar",
     isScrolled && "sticky",
     ["/services", "/about", "/news"].includes(pathname) && "services-nav",
-    pathname === "/courses" && "courses-nav",
+    ["/courses", "/mediation"].includes(pathname) && "courses-nav",
   ]
     .filter(Boolean)
     .join(" ");

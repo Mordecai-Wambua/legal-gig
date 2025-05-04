@@ -36,7 +36,7 @@
 
 .navbar .nav-links li a {
   text-decoration: none;
-  color: #fff; /* changed from inherit */
+  color: #fff;
   font-weight: 500;
   padding: 8px 15px;
   border-radius: 20px;
@@ -105,6 +105,12 @@
 }
 
 /* Mobile Styling */
+@media (max-width: 1200px) {
+  .navbar .nav-links li a {
+    font-size: 14px;
+  }
+}
+
 @media (max-width: 768px) {
   .navbar {
     padding: 15px 20px;

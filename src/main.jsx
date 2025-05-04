@@ -10,6 +10,7 @@ import ContactPage from "./pages/contact/Contact.jsx";
 import NewsPage from "./pages/news/News.jsx";
 import CoursesPage from "./pages/courses/Courses.jsx";
 import ServicesPage from "./pages/services/Services.jsx";
+import MediationPage from "./pages/mediation/Mediation.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
   { path: "/news", element: <NewsPage /> },
   { path: "/courses", element: <CoursesPage /> },
   { path: "/services", element: <ServicesPage /> },
+  { path: "/mediation", element: <MediationPage /> },
 ]);
 
 createRoot(document.getElementById("root")).render(
