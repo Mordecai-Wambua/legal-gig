@@ -1,0 +1,148 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.5s;
+  z-index: 1000;
+  color: #fff;
+}
+
+.navbar.sticky {
+  padding: 10px 50px;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.navbar .logo {
+  color: #fff;
+  font-size: 30px;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 2px;
+}
+
+.navbar .nav-links {
+  display: flex;
+}
+
+.navbar .nav-links li {
+  list-style: none;
+  margin-left: 30px;
+}
+
+.navbar .nav-links li a {
+  text-decoration: none;
+  color: #fff; /* changed from inherit */
+  font-weight: 500;
+  padding: 8px 15px;
+  border-radius: 20px;
+  letter-spacing: 1px;
+  transition: color 1s ease-in-out, background 1s ease-in-out,
+    transform 1s ease-in-out;
+}
+
+.navbar .nav-links li a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transform: translateY(-5px);
+  cursor: pointer; /* added */
+}
+
+/* Services Page Navbar Styling */
+.services-nav .logo {
+  color: #333;
+}
+
+.services-nav.sticky .logo {
+  color: #fff;
+}
+
+.services-nav .nav-links li a {
+  color: #333;
+  transition: all 1s ease-in-out;
+}
+
+.services-nav.sticky .nav-links li a {
+  color: #fff;
+}
+
+.services-nav .menu-toggle {
+  cursor: pointer;
+  color: #333;
+}
+
+.services-nav.sticky .menu-toggle {
+  cursor: pointer;
+  color: #fff;
+}
+
+.services-nav .nav-links li a:hover {
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+/* Courses Page Navbar Styling */
+.courses-nav .logo {
+  color: #4b3dba;
+}
+
+.courses-nav .nav-links li a {
+  color: #4b3dba;
+  transition: all 1s ease-in-out;
+}
+
+.courses-nav.sticky .nav-links li a {
+  color: #fff;
+}
+
+.courses-nav .nav-links li a:hover {
+  background: rgba(138, 123, 235, 0.3);
+  color: #4b3dba;
+}
+
+/* Mobile Styling */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 15px 20px;
+  }
+
+  .navbar.sticky {
+    padding: 10px 20px;
+  }
+
+  .menu-toggle {
+    cursor: pointer;
+    color: #fff;
+  }
+
+  .navbar .nav-links {
+    position: fixed;
+    top: 0;
+    left: 100%;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    display: flex;
+    transition: left 0.4s ease-in-out;
+  }
+
+  .navbar .nav-links li a {
+    color: #fff;
+  }
+
+  .navbar .nav-links.active {
+    left: 0;
+  }
+
+  .navbar .nav-links li {
+    margin: 15px 0;
+  }
+}
