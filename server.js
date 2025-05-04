@@ -1,14 +1,17 @@
 import express from "express";
 import path from "path";
 import cors from "cors";
+import dotenv from "dotenv";
 import { fileURLToPath } from "url";
 
 // Setup __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+dotenv.config();
 const app = express();
-const PORT = 8080;
+
+const PORT = process.env.PORT || 8080;
 
 // Enable CORS for all origins
 app.use(cors());
