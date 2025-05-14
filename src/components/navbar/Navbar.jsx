@@ -1,19 +1,17 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RiCloseLargeFill } from "react-icons/ri";
+import { ROUTE_METADATA } from "../../routes";
+import { Button, NavLink } from "../../components/ui";
+import { colors } from "../../components/ui/theme";
 
-const LINKS = [
-  { ref: "/", name: "Home" },
-  { ref: "/about", name: "About" },
-  { ref: "/services", name: "Services" },
-  { ref: "/news", name: "News" },
-  { ref: "/courses", name: "Courses" },
-  { ref: "/mediation", name: "Mediation" },
-  { ref: "/contact", name: "Contact" },
-];
+// Sort navigation links by their order property
+const NAV_LINKS = ROUTE_METADATA.filter((route) => route.showInNav).sort(
+  (a, b) => a.order - b.order
+);
 
-export default function Navbar() {
+const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
@@ -22,6 +20,11 @@ export default function Navbar() {
   const handleScroll = useCallback(() => {
     setIsScrolled(window.scrollY > 0);
   }, []);
+
+  // Close menu when route changes
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -37,43 +40,33 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
-  // Determines logo color based on current pathname & scroll state
+  // Determines the appropriate navbar theme based on current page and scroll state
+  const getNavTheme = () => {
+    // Services, About, News pages use blue theme
+    if (["/services", "/about", "/news"].includes(pathname)) {
+      return isScrolled ? "light" : "default";
+    }
+    // Courses, Membership pages use purple theme
+    if (["/courses", "/membership"].includes(pathname)) {
+      return isScrolled ? "light" : "purple";
+    }
+    // Contact page uses primary blue theme
+    if (["/contact"].includes(pathname)) {
+      return isScrolled ? "light" : "primary";
+    }
+    // Default (home) uses light theme
+    return "light";
+  };
+
+  const navTheme = getNavTheme();
+
+  // Logo style based on current theme
   const logoColorClass = (() => {
-    if (["/services", "/about", "/news"].includes(pathname)) {
-      return isScrolled ? "text-white" : "text-gray-800";
-    }
-    if (["/courses", "/mediation"].includes(pathname)) {
-      return isScrolled ? "text-white" : "text-purple-700";
-    }
-
-    if (["/contact"].includes(pathname)) {
-      return isScrolled ? "text-white" : "text-blue-700";
-    }
+    if (isScrolled) return "text-white";
+    if (navTheme === "default") return "text-gray-800";
+    if (navTheme === "purple") return "text-purple-700";
+    if (navTheme === "primary") return "text-blue-700";
     return "text-white";
-  })();
-
-  // Base link styles
-  const linkBaseClass = "font-medium rounded-full px-4 py-2 transition";
-
-  // Link color variant depending on pathname & scroll state
-  const linkColorClass = (() => {
-    if (["/services", "/about", "/news"].includes(pathname)) {
-      return isScrolled
-        ? "text-white hover:bg-black/50"
-        : "text-gray-800 hover:bg-black/50";
-    }
-    if (["/courses", "/mediation"].includes(pathname)) {
-      return isScrolled
-        ? "text-white hover:bg-purple-300/30"
-        : "text-purple-700 hover:bg-purple-300/30";
-    }
-
-    if (["/contact"].includes(pathname)) {
-      return isScrolled
-        ? "text-white hover:bg-black/50"
-        : "text-blue-700 hover:bg-blue-300/30";
-    }
-    return "text-white hover:bg-white/20";
   })();
 
   const baseNav = "fixed top-0 left-0 w-full z-50 transition-all duration-300";
@@ -82,13 +75,18 @@ export default function Navbar() {
     : "bg-transparent py-5";
   const navbarClasses = `${baseNav} ${scrollStyles}`;
 
+  const toggleMenu = useCallback(() => {
+    setFadeOut(false);
+    setMenuOpen((prev) => !prev);
+  }, []);
+
   return (
     <nav
       className={navbarClasses}
       role="navigation"
       aria-label="Primary Navigation"
     >
-      <div className=" mx-auto flex justify-between items-center px-6 md:px-12">
+      <div className="max-w-7xl mx-auto flex justify-between items-center px-6 md:px-12">
         {/* Logo */}
         <Link
           to="/"
@@ -100,53 +98,54 @@ export default function Navbar() {
 
         {/* Desktop Links (≥1000px) */}
         <ul className="hidden lg:flex space-x-8">
-          {LINKS.map(({ ref, name }) => (
+          {NAV_LINKS.map(({ path, name }) => (
             <li key={name}>
-              <Link to={ref} className={`${linkBaseClass} ${linkColorClass}`}>
+              <NavLink to={path} variant={navTheme} exact={path === "/"}>
                 {name}
-              </Link>
+              </NavLink>
             </li>
           ))}
         </ul>
 
         {/* Hamburger Button (all <1000px) */}
-        <button
-          className="lg:hidden text-white focus:outline-none z-50"
-          onClick={() => {
-            setFadeOut(false);
-            setMenuOpen((open) => !open);
-          }}
+        <Button
+          variant={
+            isScrolled ? "text" : navTheme === "light" ? "text" : "outline"
+          }
+          className="lg:hidden z-50 p-2 !text-white"
+          onClick={toggleMenu}
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
-          type="button"
         >
           {menuOpen ? (
             <RiCloseLargeFill size={28} />
           ) : (
             <GiHamburgerMenu size={28} />
           )}
-        </button>
+        </Button>
       </div>
 
       {/* Mobile Fullscreen Menu (<-md) */}
       <div
         id="mobile-menu"
-        className={`fixed inset-0 bg-black/80 backdrop-blur-md flex flex-col items-center justify-center space-y-6 text-xl font-semibold transition-transform duration-300  md:hidden ${
+        className={`fixed inset-0 bg-black/80 backdrop-blur-md flex flex-col items-center justify-center space-y-6 text-xl font-semibold transition-transform duration-300 md:hidden ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
         role="menu"
       >
-        {LINKS.map(({ ref, name }) => (
-          <Link
+        {NAV_LINKS.map(({ path, name }) => (
+          <NavLink
             key={name}
-            to={ref}
+            to={path}
             onClick={() => setMenuOpen(false)}
-            className="text-white px-8 py-3 rounded-full hover:bg-white/20 transition hover:scale-105"
+            variant="light"
+            className="px-8 py-3 !text-xl hover:scale-105"
+            exact={path === "/"}
             role="menuitem"
           >
             {name}
-          </Link>
+          </NavLink>
         ))}
       </div>
 
@@ -163,19 +162,23 @@ export default function Navbar() {
         onTransitionEnd={() => fadeOut && setMenuOpen(false)}
       >
         <ul className="max-w-3xl mx-auto flex space-x-6 text-white text-lg font-semibold backdrop-blur-sm">
-          {LINKS.map(({ ref, name }) => (
+          {NAV_LINKS.map(({ path, name }) => (
             <li key={name}>
-              <Link
-                to={ref}
+              <NavLink
+                to={path}
                 onClick={() => setFadeOut(true)}
-                className="hover:underline px-3 py-1 transition hover:scale-105"
+                variant="light"
+                className="hover:underline px-3 py-1 !text-lg hover:scale-105"
+                exact={path === "/"}
               >
                 {name}
-              </Link>
+              </NavLink>
             </li>
           ))}
         </ul>
       </div>
     </nav>
   );
-}
+};
+
+export default memo(Navbar);

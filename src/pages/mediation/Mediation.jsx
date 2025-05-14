@@ -2,13 +2,14 @@ import Layout from "../../layout";
 import styles from "./mediation.module.css";
 import MediationModal from "./MediationModal";
 import { useState, useEffect } from "react";
+import { Button, Heading } from "../../components/ui";
 
 export default function MediationPage() {
   const [open, setOpen] = useState(false);
   const [modalCourse, setModalCourse] = useState("");
 
   return (
-    <Layout>
+    <>
       <MediationModal
         isOpen={open}
         onClose={() => setOpen(false)}
@@ -25,7 +26,9 @@ export default function MediationPage() {
             />
           </div>
           <div className={styles.hero_text}>
-            <h1>Join Our Global Dispute Resolution Community</h1>
+            <Heading level={1} variant="secondary" serif={true}>
+              Join Our Global Dispute Resolution Community
+            </Heading>
             <p>
               <strong>Welcome!</strong> Becoming a member of{" "}
               <strong>The Dispute Resolution Centre</strong> connects you to an
@@ -33,9 +36,9 @@ export default function MediationPage() {
               membership framework is designed to be rigorous, inclusive, and
               rewarding—perfect for enhancing your CV and professional standing.
             </p>
-            <a href="#" className={styles.hero_btn}>
+            <Button variant="secondary" className={styles.hero_btn}>
               START NOW
-            </a>
+            </Button>
           </div>
         </div>
       </section>
@@ -43,11 +46,21 @@ export default function MediationPage() {
       <section className={styles.courses}>
         <div className={styles.container}>
           <div className={styles.section_title}>
-            <h2>Step-by-Step Application Process</h2>
+            <Heading
+              level={2}
+              variant="default"
+              serif={true}
+              underlined={true}
+              aligned="center"
+            >
+              Step-by-Step Application Process
+            </Heading>
           </div>
 
           <div className={styles.course_card}>
-            <h3>1.Online Registration</h3>
+            <Heading level={3} variant="secondary">
+              1.Online Registration
+            </Heading>
 
             <ul>
               <li>
@@ -62,7 +75,9 @@ export default function MediationPage() {
           </div>
 
           <div className={styles.course_card}>
-            <h3>2.Document Submission</h3>
+            <Heading level={3} variant="secondary">
+              2.Document Submission
+            </Heading>
 
             <ul>
               <li>
@@ -86,7 +101,9 @@ export default function MediationPage() {
           </div>
 
           <div className={styles.course_card}>
-            <h3>3.Online Assessment & Interview</h3>
+            <Heading level={3} variant="secondary">
+              3.Online Assessment & Interview
+            </Heading>
             <ul>
               <li>
                 <strong>Digital Proficiency Test: </strong>Complete an online
@@ -105,7 +122,9 @@ export default function MediationPage() {
           </div>
 
           <div className={styles.course_card}>
-            <h3>4.Review & Approval</h3>
+            <Heading level={3} variant="secondary">
+              4.Review & Approval
+            </Heading>
             <ul>
               <li>
                 <strong>Evaluation: </strong>Our expert panel reviews your
@@ -127,13 +146,23 @@ export default function MediationPage() {
       <section className={styles.gallery}>
         <div className={styles.container}>
           <div className={styles.section_title}>
-            <h2>Membership Categories</h2>
+            <Heading
+              level={2}
+              variant="default"
+              serif={true}
+              underlined={true}
+              aligned="center"
+            >
+              Membership Categories
+            </Heading>
           </div>
 
           <div className={styles.gallery_container}>
             <div className={styles.gallery_card}>
               <div className={styles.gallery_card_content}>
-                <h3>Student/Junior Member</h3>
+                <Heading level={3} variant="secondary">
+                  Student/Junior Member
+                </Heading>
                 <p>
                   <strong>
                     Emerging Dispute Resolution Professional (EDRP)
@@ -150,20 +179,24 @@ export default function MediationPage() {
                   <br />
                 </p>
 
-                <button
+                <Button
+                  variant="secondary"
                   className={styles.hero_btn}
                   onClick={() => {
-                    setOpen(true), setModalCourse("Student/Junior Member");
+                    setOpen(true);
+                    setModalCourse("Student/Junior Member");
                   }}
                 >
                   JOIN
-                </button>
+                </Button>
               </div>
             </div>
 
             <div className={styles.gallery_card}>
               <div className={styles.gallery_card_content}>
-                <h3>Associate Member</h3>
+                <Heading level={3} variant="secondary">
+                  Associate Member
+                </Heading>
                 <p>
                   <strong>
                     Associate Dispute Resolution Practitioner (ADRP)
@@ -179,20 +212,24 @@ export default function MediationPage() {
                   <br />
                   <br />
                 </p>
-                <button
+                <Button
+                  variant="secondary"
                   className={styles.hero_btn}
                   onClick={() => {
-                    setOpen(true), setModalCourse("Associate Member");
+                    setOpen(true);
+                    setModalCourse("Associate Member");
                   }}
                 >
                   JOIN
-                </button>
+                </Button>
               </div>
             </div>
 
             <div className={styles.gallery_card}>
               <div className={styles.gallery_card_content}>
-                <h3>Corporate Member</h3>
+                <Heading level={3} variant="secondary">
+                  Corporate Member
+                </Heading>
                 <p>
                   <strong>Corporate Conflict Resolution Advisor (CCRA)</strong>
                   <br />
@@ -205,20 +242,24 @@ export default function MediationPage() {
                   <br />o Exclusive access to collaborative projects and
                   industry events
                 </p>
-                <button
+                <Button
+                  variant="secondary"
                   className={styles.hero_btn}
                   onClick={() => {
-                    setOpen(true), setModalCourse("Corporate Member");
+                    setOpen(true);
+                    setModalCourse("Corporate Member");
                   }}
                 >
                   JOIN
-                </button>
+                </Button>
               </div>
             </div>
 
             <div className={styles.gallery_card}>
               <div className={styles.gallery_card_content}>
-                <h3>Full Member</h3>
+                <Heading level={3} variant="secondary">
+                  Full Member
+                </Heading>
                 <p>
                   <strong>
                     Certified Dispute Resolution Specialist (CDRS)
@@ -234,14 +275,16 @@ export default function MediationPage() {
                   <br />
                   <br />
                 </p>
-                <button
+                <Button
+                  variant="secondary"
                   className={styles.hero_btn}
                   onClick={() => {
-                    setOpen(true), setModalCourse("Full Member");
+                    setOpen(true);
+                    setModalCourse("Full Member");
                   }}
                 >
                   JOIN
-                </button>
+                </Button>
               </div>
             </div>
           </div>
@@ -250,7 +293,9 @@ export default function MediationPage() {
 
       <section className={styles.final}>
         <div className={styles.endtext}>
-          <h3>Membership Testing & Certification</h3>
+          <Heading level={3} variant="secondary">
+            Membership Testing & Certification
+          </Heading>
           <p>
             To ensure that every member meets our high professional standards,
             all applicants will undergo:
@@ -273,7 +318,9 @@ export default function MediationPage() {
           </ul>
         </div>
         <div className={styles.endtext}>
-          <h3>Our Guiding Light</h3>
+          <Heading level={3} variant="secondary">
+            Our Guiding Light
+          </Heading>
           <p>
             We empower professionals and organizations to transform conflicts
             into opportunities for growth and understanding. Through ethical
@@ -282,7 +329,9 @@ export default function MediationPage() {
           </p>
         </div>
         <div className={styles.endtext}>
-          <h3>Our Aspiration</h3>
+          <Heading level={3} variant="secondary">
+            Our Aspiration
+          </Heading>
           <p>
             We envision a future where dispute resolution is synonymous with
             compassion and precision
@@ -292,6 +341,6 @@ export default function MediationPage() {
           </p>
         </div>
       </section>
-    </Layout>
+    </>
   );
 }

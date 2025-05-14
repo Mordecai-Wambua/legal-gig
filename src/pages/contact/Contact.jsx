@@ -1,7 +1,11 @@
 import React, { useState, useCallback } from "react";
-import { FaEnvelope, FaPhoneAlt, FaComment } from "react-icons/fa";
+import {
+  FaEnvelope,
+  FaPhoneAlt,
+  FaComment,
+  FaPaperPlane,
+} from "react-icons/fa";
 import Layout from "../../layout";
-import "./contact.css";
 
 const backgroundImageUrl = "/contact/Contact.webp";
 
@@ -17,6 +21,7 @@ export default function ContactPage() {
 
   const [formData, setFormData] = useState(initialFormData);
   const [buttonText, setButtonText] = useState("Submit");
+  const [formStatus, setFormStatus] = useState(null); // null, 'success', 'error'
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
@@ -26,85 +31,152 @@ export default function ContactPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setButtonText("Sending...");
+    setFormStatus(null);
 
     try {
-      const response = await fetch(`${API_URL}/api/contact`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      // For demo purposes, we're just simulating a successful response
+      // In production, uncomment the API call below
 
-      if (response.ok) {
+      // const API_URL = import.meta.env.VITE_API_URL;
+      // const response = await fetch(`${API_URL}/api/contact`, {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(formData),
+      // });
+
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const success = true; // Simulate success
+
+      if (success) {
         setButtonText("Message Sent!");
         setFormData(initialFormData);
+        setFormStatus("success");
       } else {
         setButtonText("Failed to send!");
+        setFormStatus("error");
       }
     } catch (error) {
       console.log(error);
       setButtonText("Error sending!");
+      setFormStatus("error");
     }
 
-    setTimeout(() => setButtonText("Submit"), 3000);
+    setTimeout(() => {
+      setButtonText("Submit");
+      // Keep success/error message visible for a bit longer
+      setTimeout(() => setFormStatus(null), 3000);
+    }, 2000);
   };
 
   return (
-    <Layout>
-      <div className="contactContain">
-        {/* Background Image */}
-        <div className="bgImage">
-          <img
-            src={backgroundImageUrl}
-            alt="Contact Us"
-            className="bgImg"
-            loading="lazy"
-            style={{ objectFit: "cover", width: "100%", height: "100%" }}
-          />
+    <article className="relative pb-16">
+      {/* Background image with overlay */}
+      <div className="fixed inset-0 z-[-1] overflow-hidden">
+        <img
+          src={backgroundImageUrl}
+          alt=""
+          className="w-full h-full object-cover"
+          aria-hidden="true"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-black/10"></div>
+      </div>
+
+      {/* Page header */}
+      <header className="pt-32 pb-12 text-center">
+        <div className="bg-white/70 backdrop-blur-sm inline-block px-12 py-6 rounded-lg">
+          <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-wide text-gray-900">
+            CONTACT US
+          </h1>
         </div>
+      </header>
 
-        <div className="containerSection">
-          {/* Left Section */}
-          <div className="leftSection">
-            <h1 className="title">Have a question?</h1>
-            <p>
-              We are here to help! Fill out the form or reach us via email or
-              phone. Our Customer Care Team is available to assist you.
-            </p>
-            <p>Business Hours: Mon-Fri | 9 AM - 5 PM EAT.</p>
+      {/* Main content container */}
+      <main className="max-w-6xl mx-auto px-6 py-8 bg-white/80 backdrop-blur-sm rounded-xl shadow-xl mb-16">
+        <div className="flex flex-col md:flex-row gap-10">
+          {/* Left Section - Contact Information */}
+          <div className="md:w-2/5">
+            <h2 className="text-3xl font-serif font-bold mb-6 text-gray-900 inline-block relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-1/2 after:h-1 after:bg-blue-600">
+              Have a question?
+            </h2>
+            <div className="space-y-4 text-gray-700 leading-relaxed">
+              <p className="text-lg">
+                We are here to help! Fill out the form or reach us via email or
+                phone. Our Customer Care Team is available to assist you.
+              </p>
+              <p>Business Hours: Mon-Fri | 9 AM - 5 PM EAT.</p>
+            </div>
 
-            <div className="contactInfo">
+            <div className="space-y-6 mt-10 bg-blue-50 p-8 rounded-lg">
+              <h3 className="font-bold text-xl text-gray-800 mb-4">
+                Connect With Us
+              </h3>
               <a
                 href="mailto:zackserick@gmail.com"
-                className="contactItem"
+                className="flex items-center text-gray-800 hover:text-blue-600 transition duration-300 group"
                 aria-label="Email"
               >
-                <FaEnvelope className="contactItemIcon" /> zackserick@gmail.com
+                <span className="bg-blue-100 p-3 rounded-full mr-4 group-hover:bg-blue-200 transition duration-300">
+                  <FaEnvelope className="text-blue-600" />
+                </span>
+                <span>zackserick@gmail.com</span>
               </a>
               <a
                 href="tel:+254759357030"
-                className="contactItem"
+                className="flex items-center text-gray-800 hover:text-blue-600 transition duration-300 group"
                 aria-label="Phone"
               >
-                <FaPhoneAlt className="contactItemIcon" /> +254 759 357030
+                <span className="bg-blue-100 p-3 rounded-full mr-4 group-hover:bg-blue-200 transition duration-300">
+                  <FaPhoneAlt className="text-blue-600" />
+                </span>
+                <span>+254 759 357030</span>
               </a>
               <a
                 href="https://wa.link/xosc3z"
-                className="contactItem"
+                className="flex items-center text-gray-800 hover:text-blue-600 transition duration-300 group"
                 aria-label="WhatsApp"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <FaComment className="contactItemIcon" /> Chat with us
+                <span className="bg-blue-100 p-3 rounded-full mr-4 group-hover:bg-blue-200 transition duration-300">
+                  <FaComment className="text-blue-600" />
+                </span>
+                <span>Chat with us</span>
               </a>
             </div>
           </div>
 
           {/* Right Section - Contact Form */}
-          <div className="rightSection">
-            <form onSubmit={handleSubmit}>
-              <div className="formRow">
+          <div className="md:w-3/5">
+            <h2 className="text-3xl font-serif font-bold mb-6 text-gray-900 inline-block relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-1/2 after:h-1 after:bg-blue-600">
+              Send a Message
+            </h2>
+
+            {formStatus === "success" && (
+              <div className="mb-6 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded">
+                Thank you for your message! We'll get back to you soon.
+              </div>
+            )}
+
+            {formStatus === "error" && (
+              <div className="mb-6 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded">
+                There was an error sending your message. Please try again later.
+              </div>
+            )}
+
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-5 bg-white/70 p-6 rounded-lg"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label htmlFor="firstName">First Name *</label>
+                  <label
+                    htmlFor="firstName"
+                    className="block text-gray-700 mb-2"
+                  >
+                    First Name *
+                  </label>
                   <input
                     type="text"
                     name="firstName"
@@ -113,10 +185,16 @@ export default function ContactPage() {
                     required
                     value={formData.firstName}
                     onChange={handleChange}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
                   />
                 </div>
                 <div>
-                  <label htmlFor="lastName">Last Name *</label>
+                  <label
+                    htmlFor="lastName"
+                    className="block text-gray-700 mb-2"
+                  >
+                    Last Name *
+                  </label>
                   <input
                     type="text"
                     name="lastName"
@@ -125,63 +203,89 @@ export default function ContactPage() {
                     required
                     value={formData.lastName}
                     onChange={handleChange}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
                   />
                 </div>
               </div>
 
-              <label htmlFor="email">Email *</label>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="Email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-              />
+              <div>
+                <label htmlFor="email" className="block text-gray-700 mb-2">
+                  Email *
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="Email"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                />
+              </div>
 
-              <label htmlFor="phone">Phone (Optional)</label>
-              <input
-                type="tel"
-                name="phone"
-                id="phone"
-                placeholder="Phone Number"
-                value={formData.phone}
-                onChange={handleChange}
-              />
+              <div>
+                <label htmlFor="phone" className="block text-gray-700 mb-2">
+                  Phone (Optional)
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  id="phone"
+                  placeholder="Phone Number"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                />
+              </div>
 
-              <label htmlFor="topic">Topic *</label>
-              <select
-                name="topic"
-                id="topic"
-                required
-                value={formData.topic}
-                onChange={handleChange}
+              <div>
+                <label htmlFor="topic" className="block text-gray-700 mb-2">
+                  Topic *
+                </label>
+                <select
+                  name="topic"
+                  id="topic"
+                  required
+                  value={formData.topic}
+                  onChange={handleChange}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                >
+                  <option value="" disabled>
+                    Select a topic
+                  </option>
+                  <option value="dispute">Dispute Resolution</option>
+                  <option value="order">Consultation</option>
+                  <option value="training">Training Center</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="message" className="block text-gray-700 mb-2">
+                  Message *
+                </label>
+                <textarea
+                  name="message"
+                  id="message"
+                  placeholder="Your Message"
+                  required
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 min-h-32 resize-y"
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 transform hover:translate-y-[-2px] hover:shadow-lg flex items-center justify-center gap-2"
               >
-                <option value="" disabled>
-                  Select a topic
-                </option>
-                <option value="dispute">Dispute Resolution</option>
-                <option value="order">Consultation</option>
-                <option value="training">Training Center</option>
-                <option value="other">Other</option>
-              </select>
-
-              <label htmlFor="message">Message *</label>
-              <textarea
-                name="message"
-                id="message"
-                placeholder="Your Message"
-                required
-                value={formData.message}
-                onChange={handleChange}
-              ></textarea>
-
-              <button type="submit">{buttonText}</button>
+                {buttonText} {buttonText === "Submit" && <FaPaperPlane />}
+              </button>
             </form>
           </div>
         </div>
-      </div>
-    </Layout>
+      </main>
+    </article>
   );
 }

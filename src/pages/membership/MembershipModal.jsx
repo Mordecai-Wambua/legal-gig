@@ -116,19 +116,19 @@ export default function MembershipModal({ isOpen, onClose, categoryName }) {
 
   return ReactDOM.createPortal(
     <div
-      className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50"
+      className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-4"
       onClick={clearForm}
       aria-modal="true"
       role="dialog"
     >
       <div
-        className={`bg-white rounded-xl shadow-2xl w-full max-w-3xl p-6 relative transform transition-all duration-300 ${
+        className={`bg-white rounded-xl shadow-xl w-full max-w-3xl p-4 sm:p-6 relative transform transition-all duration-300 ${
           showModal ? "opacity-100 scale-100" : "opacity-0 scale-90"
         }`}
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          className="absolute top-3 right-3 text-3xl text-gray-500 hover:text-gray-800 cursor-pointer"
+          className="absolute top-2 right-2 sm:top-3 sm:right-3 text-2xl sm:text-3xl text-gray-500 hover:text-gray-800 cursor-pointer"
           onClick={clearForm}
           aria-label="Close modal"
         >
@@ -137,16 +137,16 @@ export default function MembershipModal({ isOpen, onClose, categoryName }) {
 
         <h2
           id="membership-title"
-          className="text-2xl font-bold mb-4 text-gray-800"
+          className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-gray-800"
         >
-          Join <span className="text-blue-600">Us</span> in becoming a<br />
-          <span className="text-blue-600">{categoryName}</span>
+          Join Us in becoming a<br />
+          <span className="text-gray-700">{categoryName}</span>
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
           {/* Training options */}
           <div>
-            <label className="block font-bold mb-1 text-gray-700">
+            <label className="block font-bold mb-1 text-gray-800 text-sm sm:text-base">
               Training Option <span className="text-red-500">*</span>
             </label>
 
@@ -154,16 +154,22 @@ export default function MembershipModal({ isOpen, onClose, categoryName }) {
               {trainingOptions.map((opt) => (
                 <div
                   key={opt.title}
-                  className={`p-3 border rounded-lg cursor-pointer transition-all ${
+                  className={`p-2 sm:p-3 border rounded-lg cursor-pointer transition-all ${
                     selectedOption === opt.title
-                      ? "border-blue-600 bg-blue-50"
+                      ? "border-gray-400 bg-gray-50"
                       : "border-gray-300 hover:bg-gray-50"
                   }`}
                   onClick={() => handleOptionClick(opt.title)}
                 >
-                  <div className="font-semibold text-gray-800">{opt.title}</div>
-                  <div className="text-blue-600 font-bold">{opt.price}</div>
-                  <div className="text-sm text-gray-600">{opt.desc}</div>
+                  <div className="font-semibold text-gray-800 text-sm sm:text-base">
+                    {opt.title}
+                  </div>
+                  <div className="text-gray-700 font-bold text-sm sm:text-base">
+                    {opt.price}
+                  </div>
+                  <div className="text-xs sm:text-sm text-gray-600">
+                    {opt.desc}
+                  </div>
                 </div>
               ))}
             </div>
@@ -173,7 +179,7 @@ export default function MembershipModal({ isOpen, onClose, categoryName }) {
           <div>
             <label
               htmlFor="name"
-              className="block font-bold mb-1 text-gray-700"
+              className="block font-bold mb-1 text-gray-800 text-sm sm:text-base"
             >
               Name <span className="text-red-500">*</span>
             </label>
@@ -185,7 +191,7 @@ export default function MembershipModal({ isOpen, onClose, categoryName }) {
               autoFocus
               value={form.name}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+              className="w-full border border-gray-300 rounded-lg p-2 text-sm sm:text-base focus:ring-2 focus:ring-gray-400 focus:border-gray-400 outline-none"
               aria-required="true"
             />
           </div>
@@ -194,7 +200,7 @@ export default function MembershipModal({ isOpen, onClose, categoryName }) {
           <div>
             <label
               htmlFor="email"
-              className="block font-bold mb-1 text-gray-700"
+              className="block font-bold mb-1 text-gray-800 text-sm sm:text-base"
             >
               Email <span className="text-red-500">*</span>
             </label>
@@ -205,7 +211,7 @@ export default function MembershipModal({ isOpen, onClose, categoryName }) {
               required
               value={form.email}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+              className="w-full border border-gray-300 rounded-lg p-2 text-sm sm:text-base focus:ring-2 focus:ring-gray-400 focus:border-gray-400 outline-none"
               aria-required="true"
             />
           </div>
@@ -214,7 +220,7 @@ export default function MembershipModal({ isOpen, onClose, categoryName }) {
           <div>
             <label
               htmlFor="phone"
-              className="block font-bold mb-1 text-gray-700"
+              className="block font-bold mb-1 text-gray-800 text-sm sm:text-base"
             >
               Phone <span className="text-red-500">*</span>
             </label>
@@ -224,23 +230,25 @@ export default function MembershipModal({ isOpen, onClose, categoryName }) {
               type="tel"
               ref={phoneRef}
               required
-              className="w-full border border-gray-300 rounded-lg p-2"
+              className="w-full border border-gray-300 rounded-lg p-2 text-sm sm:text-base"
               aria-required="true"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white rounded-lg p-3 font-medium hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg"
+            className="w-full bg-gray-800 hover:bg-gray-700 text-white rounded-lg p-2.5 sm:p-3 font-medium transition-colors shadow-md hover:shadow-lg text-sm sm:text-base mt-2"
           >
             {buttonText}
           </button>
         </form>
 
         {/* Social icons */}
-        <div className="mt-6 pt-4 border-t text-center">
-          <h4 className="text-gray-600 mb-2">Connect With Us</h4>
-          <div className="flex justify-center space-x-6">
+        <div className="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t text-center">
+          <h4 className="text-gray-600 mb-2 text-sm sm:text-base">
+            Connect With Us
+          </h4>
+          <div className="flex justify-center space-x-4 sm:space-x-6">
             {[
               { icon: faFacebookF, color: "bg-blue-600", url: "#" },
               {
@@ -249,7 +257,7 @@ export default function MembershipModal({ isOpen, onClose, categoryName }) {
                   "bg-gradient-to-br from-yellow-400 via-pink-500 to-purple-600",
                 url: "#",
               },
-              { icon: faTwitter, color: "bg-black", url: "#" },
+              { icon: faTwitter, color: "bg-blue-400", url: "#" },
               { icon: faYoutube, color: "bg-red-600", url: "#" },
             ].map((social, idx) => (
               <a
@@ -257,10 +265,13 @@ export default function MembershipModal({ isOpen, onClose, categoryName }) {
                 href={social.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`text-white ${social.color} w-10 h-10 flex items-center justify-center rounded-full hover:opacity-90 transition-opacity`}
+                className={`text-white ${social.color} w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full hover:opacity-90 transition-opacity`}
                 aria-label={`Visit our ${social.icon.iconName} page`}
               >
-                <FontAwesomeIcon icon={social.icon} />
+                <FontAwesomeIcon
+                  icon={social.icon}
+                  className="text-xs sm:text-sm"
+                />
               </a>
             ))}
           </div>

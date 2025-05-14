@@ -1,293 +1,173 @@
-import "./services.css";
+import React from "react";
+import PropTypes from "prop-types";
 import Layout from "../../layout";
+import services from "../../data/servicesData";
 
-// Import images
-import Point1 from "/services/Point1.jpg";
-import Point2 from "/services/Point2.jpg";
-import Point3 from "/services/Point3.jpg";
-import Point4 from "/services/Point4.jpg";
-import Point5 from "/services/Point5.jpg";
-
-export default function ServicesPage() {
+// Service card component
+const ServiceCard = ({ title, description, benefits, image, isReversed }) => {
   return (
-    <Layout>
-      <div className="content">
-        <h1>Our Services</h1>
-        <p>
-          Are you experiencing family disputes, corporate disputes, land
-          disputes, or any other conflict and would like to resolve it without
-          the expensive, time-consuming court systems? <br /> At our Dispute
-          Resolution Centre, we believe in resolving conflicts through methods
-          that focus on rebuilding relationships, restoring trust, and fostering
-          excellence. <br /> Here’s how the different dispute resolution
-          mechanisms we offer can benefit you:
-        </p>
-
-        <br />
-        <br />
-        <div className="services-container">
-          <div className="service-item">
-            <div className="service-text-box">
-              <h2>
-                Mediation – Rebuilding Relationships through Communication
-              </h2>
-              <br />
-              <p>
-                Our team of Mediation experts provide tailor made and innovative
-                services aimed at achieving the disputing parties needs in a
-                confidential process where they help guide both sides toward a
-                mutually agreeable solution. This approach emphasizes open
-                communication, understanding, and cooperation.
-              </p>
-              <ul>
-                <li>
-                  Cost-Effective: Making Mediation much more affordable than
-                  traditional court proceedings, saving you time and money.
-                </li>
-                <li>
-                  Control Over the Outcome: Both parties remain in control of
-                  the decision-making process, creating a solution that works
-                  best for everyone involved unlike the traditional court
-                  process.
-                </li>
-                <li>
-                  Faster Resolution: Mediation can often be completed in just a
-                  few sessions, avoiding the long delays of the courtroom.
-                </li>
-                <li>
-                  Preservation of Relationships: By fostering collaboration,
-                  mediation helps rebuild trust and strengthen relationships,
-                  whether in families or business partnerships.
-                </li>
-                <li>
-                  Confidentiality: By taking control of the mediation process,
-                  our team of experts maintain confidentiality where they have
-                  signed Non-Disclosure Agreements in the course of the
-                  resolution process.
-                </li>
-                <br />
-                <br />
-                <br />
-                <br />
-              </ul>
-            </div>
-            <div className="service-image">
-              <img
-                src={Point1}
-                alt="Mediation"
-                style={{
-                  mixBlendMode: "multiply",
-                  width: 500,
-                  height: 500,
-                  objectFit: "cover",
-                }}
-                loading="lazy"
-              />
-            </div>
+    <div className="flex flex-col md:flex-row items-center gap-8 mb-20 py-6 px-4 md:px-8 rounded-xl transition-all duration-300 hover:bg-white/70 hover:shadow-xl">
+      <div
+        className={`md:w-1/2 flex flex-col ${
+          isReversed ? "md:order-2" : "md:order-1"
+        }`}
+      >
+        <div className="relative">
+          <div className="absolute -top-8 -left-4 text-8xl text-gray-200 font-serif">
+            “
           </div>
-
-          <div className="service-item">
-            <div className="service-text-box">
-              <h2>Negotiation – Direct and Collaborative Problem-Solving</h2>
-              <p>
-                Negotiation is a process where the parties involved directly
-                communicate with each other to reach an agreement. This method
-                can be done with or without legal representation and is
-                typically more informal than mediation or arbitration.
-              </p>
-              <ul>
-                <li>
-                  Autonomy: You are in charge of the negotiation, with the
-                  flexibility to reach a solution that fits your specific needs.
-                </li>
-                <li>
-                  Quick and Efficient: Negotiation can often be concluded much
-                  quicker than the formalities of court, helping you resolve
-                  issues swiftly.
-                </li>
-                <li>
-                  Cost Savings: It eliminates costly legal fees, as you can work
-                  directly with the other party to settle the dispute.
-                </li>
-                <li>
-                  Encourages Cooperation: Negotiation builds mutual
-                  understanding and cooperation, essential for long-term success
-                  in resolving conflicts.
-                </li>
-                <br />
-                <br />
-                <br />
-                <br />
-              </ul>
-            </div>
-            <div className="service-image">
-              <img
-                src={Point2}
-                alt="Mediation"
-                style={{
-                  mixBlendMode: "multiply",
-                  width: 500,
-                  height: 500,
-                  objectFit: "cover",
-                }}
-                loading="lazy"
-              />
-            </div>
-          </div>
-
-          <div className="service-item">
-            <div className="service-text-box">
-              <h2> Arbitration – A Binding and Fair Decision</h2>
-              <p>
-                Arbitration involves a neutral third party (the arbitrator) who
-                listens to both sides and makes a binding decision. This method
-                is more structured than mediation but still avoids the
-                formalities and expenses of court.
-              </p>
-              <ul>
-                <li>
-                  Finality: The decision made by the arbitrator is binding and
-                  enforceable, providing clarity and closure for all parties
-                  involved.
-                </li>
-                <li>
-                  Expertise: Arbitrators often have specialized knowledge in the
-                  area of dispute, ensuring that the decision is well-informed
-                  and relevant.
-                </li>
-                <li>
-                  Speed: Arbitration is typically faster than court trials,
-                  allowing you to resolve disputes without prolonged waiting.
-                </li>
-                <li>
-                  Confidentiality: Arbitration sessions are private, keeping the
-                  details of your dispute confidential and protected.
-                </li>
-                <br />
-                <br />
-                <br />
-                <br />
-              </ul>
-            </div>
-            <div className="service-image">
-              <img
-                src={Point3}
-                alt="Mediation"
-                style={{
-                  mixBlendMode: "multiply",
-                  width: 500,
-                  height: 500,
-                  objectFit: "cover",
-                }}
-                loading="lazy"
-              />
-            </div>
-          </div>
-
-          <div className="service-item">
-            <div className="service-text-box">
-              <h2> Restorative Justice – Healing and Rebuilding Trust</h2>
-              <p>
-                Restorative justice focuses on repairing harm by bringing the
-                parties together to understand the impact of their actions and
-                find a way to restore harmony. This method is particularly
-                effective for family or community disputes.
-              </p>
-              <ul>
-                <li>
-                  Emotional Healing: Restorative justice helps individuals
-                  process feelings and emotions, leading to emotional healing
-                  and closure.
-                </li>
-                <li>
-                  Restores Trust: By focusing on understanding and
-                  accountability, this approach rebuilds trust and strengthens
-                  relationships.
-                </li>
-                <li>
-                  Long-Term Solutions: It addresses the root causes of the
-                  conflict, leading to sustainable resolutions that prevent
-                  future disputes.
-                </li>
-                <li>
-                  Community and Personal Growth: It empowers individuals to take
-                  responsibility for their actions and make amends, fostering
-                  personal and communal growth.
-                </li>
-                <br />
-                <br />
-                <br />
-                <br />
-              </ul>
-            </div>
-            <div className="service-image">
-              <img
-                src={Point4}
-                alt="Mediation"
-                style={{
-                  mixBlendMode: "multiply",
-                  width: 500,
-                  height: 500,
-                  objectFit: "cover",
-                }}
-                loading="lazy"
-              />
-            </div>
-          </div>
-
-          <div className="service-item">
-            <div className="service-text-box">
-              <h2>
-                Conciliation – Facilitating Agreement with Expert Guidance
-              </h2>
-              <p>
-                Conciliation involves a neutral third party who actively helps
-                the disputing parties reach an agreement. The conciliator may
-                suggest solutions and help facilitate discussions, making this
-                process more proactive than mediation.
-              </p>
-              <ul>
-                <li>
-                  Expert Guidance: The conciliator’s input can help clarify
-                  complex issues and propose realistic solutions, easing the
-                  process toward resolution.
-                </li>
-                <li>
-                  Timely: Conciliation helps parties resolve disputes faster by
-                  focusing on finding practical solutions without the delays of
-                  litigation.
-                </li>
-                <li>
-                  Collaborative: Like mediation, conciliation fosters
-                  cooperation between the parties, helping them maintain or
-                  rebuild professional or personal relationships.
-                </li>
-                <li>
-                  Cost-Effective: Conciliation is generally more affordable than
-                  going to court, saving you both time and money.
-                </li>
-                <br />
-                <br />
-                <br />
-                <br />
-              </ul>
-            </div>
-            <div className="service-image">
-              <img
-                src={Point5}
-                alt="Mediation"
-                style={{
-                  mixBlendMode: "multiply",
-                  width: 500,
-                  height: 500,
-                  objectFit: "cover",
-                }}
-                loading="lazy"
-              />
-            </div>
+          <h2 className="text-2xl md:text-3xl font-serif font-bold mb-4 text-gray-800">
+            {title}
+          </h2>
+          <p className="text-gray-700 mb-6 leading-relaxed">{description}</p>
+          <ul className="space-y-3">
+            {benefits.map((benefit, index) => (
+              <li key={index} className="flex items-start">
+                <span className="inline-flex items-center justify-center bg-blue-100 text-blue-600 h-6 w-6 rounded-full mr-3 mt-0.5 shrink-0">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </span>
+                <span className="text-gray-700">{benefit}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="absolute -bottom-8 -right-4 text-8xl text-gray-200 font-serif">
+            ”
           </div>
         </div>
       </div>
-    </Layout>
+
+      <div className={`md:w-1/2 ${isReversed ? "md:order-1" : "md:order-2"}`}>
+        <div className="relative overflow-hidden rounded-lg shadow-md group transition-all duration-300 hover:shadow-xl transform hover:scale-[1.02]">
+          <img
+            src={image}
+            alt={title}
+            className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+            style={{ mixBlendMode: "multiply" }}
+            loading="lazy"
+            width={500}
+            height={500}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+ServiceCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  benefits: PropTypes.arrayOf(PropTypes.string).isRequired,
+  image: PropTypes.any.isRequired,
+  isReversed: PropTypes.bool,
+};
+
+export default function ServicesPage() {
+  // Safe way to get origin for structured data
+  const getOrigin = () => {
+    return typeof window !== "undefined" ? window.location.origin : "";
+  };
+
+  return (
+    <>
+      {/* Schema.org structured data for services */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          name: "Our Services | The Dispute Resolution Centre",
+          description:
+            "Explore our range of dispute resolution services including mediation, negotiation, arbitration, restorative justice, and conciliation.",
+          url: getOrigin() + "/services",
+          mainEntity: {
+            "@type": "ItemList",
+            itemListElement: services.map((service, index) => ({
+              "@type": "Service",
+              position: index + 1,
+              name: service.title,
+              description: service.description,
+              provider: {
+                "@type": "Organization",
+                name: "The Dispute Resolution Centre",
+              },
+            })),
+          },
+        })}
+      </script>
+
+      <article className="min-h-screen bg-gray-50">
+        {/* Hero Section */}
+        <header className="pt-32 pb-20 text-center bg-gradient-to-r from-blue-800 to-indigo-700 text-white relative overflow-hidden">
+          {/* Decorative elements */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/20 rounded-full -mt-16 -mr-16"></div>
+          <div className="absolute bottom-0 right-20 w-32 h-32 bg-indigo-500/20 rounded-full mb-10"></div>
+          <div className="absolute top-20 left-10 w-48 h-48 bg-blue-500/10 rounded-full"></div>
+
+          <div className="relative z-10 max-w-4xl mx-auto px-4">
+            <h1 className="text-4xl md:text-5xl font-serif font-bold mb-6">
+              Our Services
+            </h1>
+            <p className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed text-white/90">
+              Are you experiencing family disputes, corporate disputes, land
+              disputes, or any other conflict and would like to resolve it
+              without the expensive, time-consuming court systems? At our
+              Dispute Resolution Centre, we believe in resolving conflicts
+              through methods that focus on rebuilding relationships, restoring
+              trust, and fostering excellence.
+            </p>
+          </div>
+        </header>
+
+        {/* Services Section */}
+        <section className="max-w-7xl mx-auto px-4 py-16 -mt-6">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-xl p-8 mb-20">
+            <h2 className="text-2xl md:text-3xl font-serif font-bold mb-8 text-center text-gray-800">
+              How Our Dispute Resolution Methods Can Benefit You
+            </h2>
+
+            <div className="divide-y divide-gray-100">
+              {services.map((service, index) => (
+                <ServiceCard
+                  key={service.id}
+                  title={service.title}
+                  description={service.description}
+                  benefits={service.benefits}
+                  image={service.image}
+                  isReversed={index % 2 !== 0}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Contact CTA */}
+          <div className="bg-blue-50 rounded-xl p-8 text-center">
+            <h2 className="text-2xl font-serif font-bold mb-4 text-gray-800">
+              Ready to Resolve Your Dispute?
+            </h2>
+            <p className="text-gray-600 mb-6 max-w-3xl mx-auto">
+              Our expert team is here to help you find the best resolution
+              method for your specific situation.
+            </p>
+            <a
+              href="/contact"
+              className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition-colors shadow-md hover:shadow-lg"
+            >
+              Contact Us Today
+            </a>
+          </div>
+        </section>
+      </article>
+    </>
   );
 }

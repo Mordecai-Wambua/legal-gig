@@ -28,6 +28,8 @@ export const courseData = [
       "Learn the ins and outs of arbitration and how to resolve disputes efficiently and fairly with a neutral third party.",
     interactive:
       "Test your arbitration skills with case studies and receive instant feedback to enhance your abilities.",
+    outcome:
+      "Become proficient in the principles and practices of effective arbitration.",
     videoUrl: "https://www.youtube.com/embed/Wwo7O9iEOvA",
   },
 ];
