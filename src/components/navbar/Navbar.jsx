@@ -109,10 +109,8 @@ const Navbar = () => {
 
         {/* Hamburger Button (all <1000px) */}
         <Button
-          variant={
-            isScrolled ? "text" : navTheme === "light" ? "text" : "outline"
-          }
-          className="lg:hidden z-50 p-2 !text-white"
+          variant={"nav"}
+          className="lg:hidden z-50 p-2"
           onClick={toggleMenu}
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"

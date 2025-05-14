@@ -23,7 +23,7 @@ const Button = ({
 }) => {
   // Base styling shared by all variants
   const baseStyles =
-    "inline-flex items-center justify-center font-medium transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2";
+    "inline-flex items-center justify-center font-medium transition-all duration-200 ";
 
   // Width handling
   const widthStyles = fullWidth ? "w-full" : "";
@@ -59,6 +59,10 @@ const Button = ({
 
     // Text button (no background)
     text: `text-blue-600 hover:text-blue-800 hover:bg-blue-50 focus:ring-blue-500 ${
+      disabled ? "opacity-60 cursor-not-allowed" : ""
+    }`,
+
+    nav: `text-white hover:text-white  ${
       disabled ? "opacity-60 cursor-not-allowed" : ""
     }`,
   };
@@ -106,6 +110,7 @@ Button.propTypes = {
     "gradient",
     "outline",
     "text",
+    "nav",
   ]),
   size: PropTypes.oneOf(["sm", "md", "lg"]),
   to: PropTypes.string,
