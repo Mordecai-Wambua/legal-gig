@@ -6,6 +6,7 @@ import {
   FaPaperPlane,
 } from "react-icons/fa";
 import Layout from "../../layout";
+import { submitContactForm } from "../../services/api";
 
 const backgroundImageUrl = "/contact/Contact.webp";
 
@@ -22,6 +23,7 @@ export default function ContactPage() {
   const [formData, setFormData] = useState(initialFormData);
   const [buttonText, setButtonText] = useState("Submit");
   const [formStatus, setFormStatus] = useState(null); // null, 'success', 'error'
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
@@ -32,34 +34,29 @@ export default function ContactPage() {
     e.preventDefault();
     setButtonText("Sending...");
     setFormStatus(null);
+    setErrorMessage("");
 
     try {
-      // For demo purposes, we're just simulating a successful response
-      // In production, uncomment the API call below
+      const response = await submitContactForm(formData);
 
-      // const API_URL = import.meta.env.VITE_API_URL;
-      // const response = await fetch(`${API_URL}/api/contact`, {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(formData),
-      // });
-
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      const success = true; // Simulate success
-
-      if (success) {
+      if (response.success) {
         setButtonText("Message Sent!");
         setFormData(initialFormData);
         setFormStatus("success");
       } else {
         setButtonText("Failed to send!");
         setFormStatus("error");
+        setErrorMessage(
+          response.message || "There was a problem sending your message."
+        );
       }
     } catch (error) {
-      console.log(error);
+      console.error("Contact form error:", error);
       setButtonText("Error sending!");
       setFormStatus("error");
+      setErrorMessage(
+        error.message || "An unexpected error occurred. Please try again."
+      );
     }
 
     setTimeout(() => {
@@ -159,13 +156,20 @@ export default function ContactPage() {
 
             {formStatus === "success" && (
               <div className="mb-4 md:mb-6 bg-green-100 border-l-4 border-green-500 text-green-700 p-3 md:p-4 rounded">
-                Thank you for your message! We'll get back to you soon.
+                <p className="font-medium">Message Sent Successfully!</p>
+                <p className="text-sm mt-1">
+                  Thank you for your message! We'll get back to you soon.
+                </p>
               </div>
             )}
 
             {formStatus === "error" && (
               <div className="mb-4 md:mb-6 bg-red-100 border-l-4 border-red-500 text-red-700 p-3 md:p-4 rounded">
-                There was an error sending your message. Please try again later.
+                <p className="font-medium">Error Sending Message</p>
+                <p className="text-sm mt-1">
+                  {errorMessage ||
+                    "There was an error sending your message. Please try again later."}
+                </p>
               </div>
             )}
 
@@ -294,7 +298,12 @@ export default function ContactPage() {
 
               <button
                 type="submit"
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 transform hover:translate-y-[-2px] hover:shadow-lg flex items-center justify-center gap-2"
+                disabled={formStatus === "success"}
+                className={`bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 transform hover:translate-y-[-2px] hover:shadow-lg flex items-center justify-center gap-2 ${
+                  formStatus === "success"
+                    ? "opacity-70 cursor-not-allowed"
+                    : ""
+                }`}
               >
                 {buttonText} {buttonText === "Submit" && <FaPaperPlane />}
               </button>

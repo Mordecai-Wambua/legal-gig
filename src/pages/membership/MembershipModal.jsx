@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import ReactDOM from "react-dom";
+import PropTypes from "prop-types";
 import { trainingOptions } from "../../data/membershipData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,8 +10,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import intlTelInput from "intl-tel-input";
 import "intl-tel-input/build/css/intlTelInput.css";
-
-const API_URL = import.meta.env.VITE_API_URL;
+import { submitMembershipRegistration } from "../../services/api";
 
 // Helper to build full number
 function getFullPhone(iti, inputEl) {
@@ -22,28 +21,56 @@ function getFullPhone(iti, inputEl) {
 }
 
 export default function MembershipModal({ isOpen, onClose, categoryName }) {
-  const [showModal, setShowModal] = useState(false);
-  const [buttonText, setButtonText] = useState("Register");
+  if (!isOpen) return null;
+
+  const modalRef = useRef(null);
   const phoneRef = useRef();
   const itiRef = useRef(null);
+
   const [selectedOption, setSelectedOption] = useState("Physical Training");
   const [form, setForm] = useState({ name: "", email: "" });
+  const [buttonText, setButtonText] = useState("Register");
+  const [formStatus, setFormStatus] = useState(null); // null, 'success', 'error'
+  const [errorMessage, setErrorMessage] = useState("");
 
-  // Modal lifecycle
-  useEffect(() => {
-    function handleKey(e) {
-      if (e.key === "Escape") onClose();
+  // Close modal when clicking outside content
+  const handleBackdropClick = (e) => {
+    if (modalRef.current && !modalRef.current.contains(e.target)) {
+      handleClose();
     }
+  };
+
+  // Common close handler to ensure body scroll is restored
+  const handleClose = () => {
+    document.body.style.overflow = "";
+    onClose();
+  };
+
+  // Reset form state
+  const resetForm = () => {
+    setForm({ name: "", email: "" });
+    setSelectedOption("Physical Training");
+    setFormStatus(null);
+    setErrorMessage("");
+    if (phoneRef.current) phoneRef.current.value = "";
+  };
+
+  // Handle ESC key press to close modal
+  useEffect(() => {
+    const handleEscKey = (e) => {
+      if (e.key === "Escape") {
+        handleClose();
+      }
+    };
 
     if (isOpen) {
-      setShowModal(true);
-      document.body.style.overflow = "hidden";
-      window.addEventListener("keydown", handleKey);
+      document.addEventListener("keydown", handleEscKey);
+      document.body.style.overflow = "hidden"; // Prevent body scrolling
     }
 
     return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", handleKey);
+      document.removeEventListener("keydown", handleEscKey);
+      document.body.style.overflow = ""; // Ensure body scrolling is restored
     };
   }, [isOpen, onClose]);
 
@@ -65,219 +92,313 @@ export default function MembershipModal({ isOpen, onClose, categoryName }) {
     };
   }, [isOpen]);
 
+  // Focus trap for the modal
+  useEffect(() => {
+    if (isOpen && modalRef.current) {
+      // Focus the modal
+      modalRef.current.focus();
+      // Reset form on open
+      resetForm();
+    }
+  }, [isOpen]);
+
   const handleOptionClick = (value) => setSelectedOption(value);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const clearForm = () => {
-    setShowModal(false);
-    setTimeout(() => {
-      onClose();
-      setForm({ name: "", email: "" });
-      setSelectedOption("Physical Training");
-      if (phoneRef.current) phoneRef.current.value = "";
-    }, 300);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setButtonText("Sending...");
-
-    const phone = getFullPhone(itiRef.current, phoneRef.current);
-    const payload = {
-      ...form,
-      trainingOption: selectedOption,
-      phone,
-      categoryName,
-    };
+    setFormStatus(null);
+    setErrorMessage("");
 
     try {
-      const response = await fetch(`${API_URL}/api/membership`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const phone = getFullPhone(itiRef.current, phoneRef.current);
 
-      if (response.ok) {
-        setButtonText("Message Sent!");
-        setTimeout(() => clearForm(), 2000);
+      // Validate phone number
+      if (!phone || phone.length < 10) {
+        setFormStatus("error");
+        setErrorMessage("Please enter a valid phone number");
+        setButtonText("Register");
+        return;
+      }
+
+      const payload = {
+        ...form,
+        trainingOption: selectedOption,
+        phone,
+        categoryName,
+      };
+
+      const response = await submitMembershipRegistration(payload);
+
+      if (response.success) {
+        setFormStatus("success");
+        setButtonText("Sent Successfully!");
+
+        // Close after delay and reset form
+        setTimeout(() => {
+          document.body.style.overflow = ""; // Ensure body scrolling is restored
+          onClose();
+          resetForm();
+        }, 2000);
       } else {
-        setButtonText("Failed to send!");
+        setFormStatus("error");
+        setErrorMessage(
+          response.message || "Failed to register. Please try again."
+        );
+        setButtonText("Try Again");
       }
     } catch (error) {
-      setButtonText("Error sending!");
+      setFormStatus("error");
+      setErrorMessage(
+        error.message || "An unexpected error occurred. Please try again."
+      );
+      setButtonText("Try Again");
     }
-
-    setTimeout(() => setButtonText("Register"), 3000);
   };
 
-  if (!isOpen) return null;
-
-  return ReactDOM.createPortal(
+  return (
     <div
-      className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-      onClick={clearForm}
-      aria-modal="true"
-      role="dialog"
+      className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto"
+      onClick={handleBackdropClick}
+      aria-hidden={!isOpen}
     >
       <div
-        className={`bg-white rounded-xl shadow-xl w-full max-w-3xl p-4 sm:p-6 relative transform transition-all duration-300 ${
-          showModal ? "opacity-100 scale-100" : "opacity-0 scale-90"
-        }`}
-        onClick={(e) => e.stopPropagation()}
+        ref={modalRef}
+        className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto md:overflow-y-scroll shadow-2xl transform transition-all duration-300 opacity-100 scale-100 md:[scrollbar-width:none] md:[&::-webkit-scrollbar]:hidden md:[-ms-overflow-style:none]"
+        tabIndex={-1}
+        aria-modal="true"
+        role="dialog"
+        aria-labelledby="membership-title"
       >
-        <button
-          className="absolute top-2 right-2 sm:top-3 sm:right-3 text-2xl sm:text-3xl text-gray-500 hover:text-gray-800 cursor-pointer"
-          onClick={clearForm}
-          aria-label="Close modal"
-        >
-          &times;
-        </button>
+        <div className="relative overflow-hidden">
+          {/* Header background with gradient */}
+          <div className="h-40 sm:h-48 md:h-56 bg-gradient-to-r from-purple-700 to-indigo-800 relative">
+            {/* Decorative elements */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/20 rounded-full -mt-10 -mr-10"></div>
+            <div className="absolute bottom-0 left-10 w-24 h-24 bg-indigo-400/20 rounded-full mb-6"></div>
 
-        <h2
-          id="membership-title"
-          className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-gray-800"
-        >
-          Join Us in becoming a<br />
-          <span className="text-gray-700">{categoryName}</span>
-        </h2>
-
-        <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
-          {/* Training options */}
-          <div>
-            <label className="block font-bold mb-1 text-gray-800 text-sm sm:text-base">
-              Training Option <span className="text-red-500">*</span>
-            </label>
-
-            <div className="space-y-2">
-              {trainingOptions.map((opt) => (
-                <div
-                  key={opt.title}
-                  className={`p-2 sm:p-3 border rounded-lg cursor-pointer transition-all ${
-                    selectedOption === opt.title
-                      ? "border-gray-400 bg-gray-50"
-                      : "border-gray-300 hover:bg-gray-50"
-                  }`}
-                  onClick={() => handleOptionClick(opt.title)}
-                >
-                  <div className="font-semibold text-gray-800 text-sm sm:text-base">
-                    {opt.title}
-                  </div>
-                  <div className="text-gray-700 font-bold text-sm sm:text-base">
-                    {opt.price}
-                  </div>
-                  <div className="text-xs sm:text-sm text-gray-600">
-                    {opt.desc}
-                  </div>
-                </div>
-              ))}
+            {/* Header content */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center">
+              <h2
+                id="membership-title"
+                className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 md:mb-3"
+              >
+                Join Our Community
+              </h2>
+              <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-md">
+                Register as a{" "}
+                <span className="font-serif font-bold">{categoryName}</span>
+              </p>
             </div>
           </div>
 
-          {/* Name */}
-          <div>
-            <label
-              htmlFor="name"
-              className="block font-bold mb-1 text-gray-800 text-sm sm:text-base"
-            >
-              Name <span className="text-red-500">*</span>
-            </label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              required
-              autoFocus
-              value={form.name}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg p-2 text-sm sm:text-base focus:ring-2 focus:ring-gray-400 focus:border-gray-400 outline-none"
-              aria-required="true"
-            />
-          </div>
-
-          {/* Email */}
-          <div>
-            <label
-              htmlFor="email"
-              className="block font-bold mb-1 text-gray-800 text-sm sm:text-base"
-            >
-              Email <span className="text-red-500">*</span>
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              value={form.email}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg p-2 text-sm sm:text-base focus:ring-2 focus:ring-gray-400 focus:border-gray-400 outline-none"
-              aria-required="true"
-            />
-          </div>
-
-          {/* Phone */}
-          <div>
-            <label
-              htmlFor="phone"
-              className="block font-bold mb-1 text-gray-800 text-sm sm:text-base"
-            >
-              Phone <span className="text-red-500">*</span>
-            </label>
-            <input
-              id="phone"
-              name="phone"
-              type="tel"
-              ref={phoneRef}
-              required
-              className="w-full border border-gray-300 rounded-lg p-2 text-sm sm:text-base"
-              aria-required="true"
-            />
-          </div>
-
+          {/* Close button */}
           <button
-            type="submit"
-            className="w-full bg-gray-800 hover:bg-gray-700 text-white rounded-lg p-2.5 sm:p-3 font-medium transition-colors shadow-md hover:shadow-lg text-sm sm:text-base mt-2"
+            onClick={handleClose}
+            className="absolute top-3 right-3 bg-black/60 hover:bg-black/80 text-white rounded-full p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+            aria-label="Close modal"
           >
-            {buttonText}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
           </button>
-        </form>
+        </div>
 
-        {/* Social icons */}
-        <div className="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t text-center">
-          <h4 className="text-gray-600 mb-2 text-sm sm:text-base">
-            Connect With Us
-          </h4>
-          <div className="flex justify-center space-x-4 sm:space-x-6">
-            {[
-              { icon: faFacebookF, color: "bg-blue-600", url: "#" },
-              {
-                icon: faInstagram,
-                color:
-                  "bg-gradient-to-br from-yellow-400 via-pink-500 to-purple-600",
-                url: "#",
-              },
-              { icon: faTwitter, color: "bg-blue-400", url: "#" },
-              { icon: faYoutube, color: "bg-red-600", url: "#" },
-            ].map((social, idx) => (
-              <a
-                key={idx}
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`text-white ${social.color} w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full hover:opacity-90 transition-opacity`}
-                aria-label={`Visit our ${social.icon.iconName} page`}
-              >
-                <FontAwesomeIcon
-                  icon={social.icon}
-                  className="text-xs sm:text-sm"
+        <div className="p-4 sm:p-6 md:p-8">
+          {formStatus === "success" && (
+            <div className="mb-4 md:mb-6 bg-green-100 border-l-4 border-green-500 text-green-700 p-3 md:p-4 rounded">
+              <p className="font-medium">Registration Successful!</p>
+              <p className="text-sm mt-1">
+                Thank you for joining us. We'll contact you shortly.
+              </p>
+            </div>
+          )}
+
+          {formStatus === "error" && (
+            <div className="mb-4 md:mb-6 bg-red-100 border-l-4 border-red-500 text-red-700 p-3 md:p-4 rounded">
+              <p className="font-medium">Registration Failed</p>
+              <p className="text-sm mt-1">{errorMessage}</p>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+            {/* Training options */}
+            <div>
+              <label className="block font-bold mb-1 md:mb-2 text-gray-700 text-sm md:text-base">
+                Training Option <span className="text-red-500">*</span>
+              </label>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {trainingOptions.map((opt) => (
+                  <div
+                    key={opt.title}
+                    className={`p-3 border rounded-lg cursor-pointer transition-all ${
+                      selectedOption === opt.title
+                        ? "border-purple-600 bg-purple-50"
+                        : "border-gray-300 hover:bg-gray-50"
+                    }`}
+                    onClick={() => handleOptionClick(opt.title)}
+                  >
+                    <div className="font-semibold text-gray-800 text-sm md:text-base">
+                      {opt.title}
+                    </div>
+                    <div className="text-purple-600 font-bold text-sm md:text-base">
+                      {opt.price}
+                    </div>
+                    <div className="text-xs md:text-sm text-gray-600">
+                      {opt.desc}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+              {/* Name */}
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block font-bold mb-1 text-gray-700 text-sm md:text-base"
+                >
+                  Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  required
+                  autoFocus
+                  value={form.name}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-lg p-2 md:p-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none text-sm md:text-base"
+                  aria-required="true"
+                  placeholder="Your full name"
                 />
-              </a>
-            ))}
+              </div>
+
+              {/* Email */}
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block font-bold mb-1 text-gray-700 text-sm md:text-base"
+                >
+                  Email <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  value={form.email}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-lg p-2 md:p-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none text-sm md:text-base"
+                  aria-required="true"
+                  placeholder="your.email@example.com"
+                />
+              </div>
+            </div>
+
+            {/* Phone */}
+            <div>
+              <label
+                htmlFor="phone"
+                className="block font-bold mb-1 text-gray-700 text-sm md:text-base"
+              >
+                Phone <span className="text-red-500">*</span>
+              </label>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                ref={phoneRef}
+                required
+                className="w-full border border-gray-300 rounded-lg p-2 md:p-3 text-sm md:text-base"
+                aria-required="true"
+                placeholder="Your phone number"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={formStatus === "success"}
+              className={`w-full text-white rounded-lg p-3 font-medium shadow-md hover:shadow-lg text-sm md:text-base mt-4 md:mt-6 flex items-center justify-center transition-all duration-300 ${
+                formStatus === "success"
+                  ? "bg-green-600 cursor-not-allowed"
+                  : "bg-gradient-to-r from-purple-600 to-indigo-700 hover:from-purple-700 hover:to-indigo-800"
+              }`}
+            >
+              <span>{buttonText}</span>
+              {buttonText === "Register" && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 ml-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              )}
+            </button>
+          </form>
+
+          {/* Social icons */}
+          <div className="mt-6 pt-4 border-t text-center">
+            <h4 className="text-gray-600 mb-2 text-sm md:text-base">
+              Connect With Us
+            </h4>
+            <div className="flex justify-center space-x-4 md:space-x-6">
+              {[
+                { icon: faFacebookF, color: "bg-blue-600", url: "#" },
+                {
+                  icon: faInstagram,
+                  color:
+                    "bg-gradient-to-br from-yellow-400 via-pink-500 to-purple-600",
+                  url: "#",
+                },
+                { icon: faTwitter, color: "bg-blue-400", url: "#" },
+                { icon: faYoutube, color: "bg-red-600", url: "#" },
+              ].map((social, idx) => (
+                <a
+                  key={idx}
+                  href={social.url}
+                  className={`h-8 w-8 md:h-10 md:w-10 rounded-full ${social.color} flex items-center justify-center text-white transition-transform hover:scale-110`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Visit our ${social.icon.iconName} page`}
+                >
+                  <FontAwesomeIcon icon={social.icon} />
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>,
-    document.body
+    </div>
   );
 }
+
+MembershipModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  categoryName: PropTypes.string,
+};

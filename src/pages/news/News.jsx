@@ -325,7 +325,7 @@ const SearchBar = ({
   onSortChange,
   activeSort,
 }) => {
-  const filterOptions = ["All", "Workshop", "Webinar", "Event", "News"];
+  const filterOptions = ["All", "Workshops", "Webinars", "Events", "News"];
   const sortOptions = [
     { value: "newest", label: "Newest First" },
     { value: "oldest", label: "Oldest First" },
