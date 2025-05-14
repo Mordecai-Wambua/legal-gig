@@ -32,7 +32,7 @@ const NavLink = memo(
       default: "text-gray-800 hover:bg-black/10",
 
       // Light styling (for dark backgrounds)
-      light: "text-white hover:bg-white/20",
+      light: "text-white hover:bg-white/20 bg-black/20",
 
       // Primary blue styling
       primary: "text-blue-700 hover:bg-blue-300/30",
@@ -46,7 +46,10 @@ const NavLink = memo(
 
     // Active state styles
     const activeStyles = isActive
-      ? activeClassName || "font-semibold bg-black/5"
+      ? activeClassName ||
+        (variant === "light"
+          ? "font-semibold bg-white/10"
+          : "font-semibold bg-black/5")
       : "";
 
     // Combined classes

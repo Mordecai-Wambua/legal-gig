@@ -4,12 +4,12 @@ import PropTypes from "prop-types";
 // Content section component
 const ContentSection = ({ title, children, className = "" }) => (
   <section
-    className={`mb-16 ${className}`}
+    className={`mb-8 md:mb-16 ${className}`}
     aria-labelledby={title.toLowerCase().replace(/\s+/g, "-")}
   >
     <h2
       id={title.toLowerCase().replace(/\s+/g, "-")}
-      className="text-3xl font-serif font-bold mb-6 inline-block relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-1/2 after:h-1 after:bg-blue-600"
+      className="text-2xl md:text-3xl font-serif font-bold mb-4 md:mb-6 inline-block relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-1/2 after:h-1 after:bg-blue-600"
     >
       {title}
     </h2>
@@ -25,7 +25,7 @@ ContentSection.propTypes = {
 
 export default function AboutPage() {
   return (
-    <article className="relative min-h-screen pb-16">
+    <article className="relative min-h-screen pb-8 md:pb-16">
       {/* Schema.org structured data for SEO */}
       <script type="application/ld+json">
         {JSON.stringify({
@@ -56,26 +56,26 @@ export default function AboutPage() {
       </div>
 
       {/* Page header */}
-      <header className="pt-32 pb-12 text-center">
-        <div className="bg-white/70 backdrop-blur-sm inline-block px-12 py-6 rounded-lg">
-          <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-wide text-gray-900">
+      <header className="pt-20 md:pt-32 pb-8 md:pb-12 text-center">
+        <div className="bg-white/70 backdrop-blur-sm inline-block px-8 md:px-12 py-4 md:py-6 rounded-lg">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-bold tracking-wide text-gray-900">
             ABOUT US
           </h1>
         </div>
       </header>
 
       {/* Main content container */}
-      <main className="max-w-5xl mx-auto px-6 py-8 bg-white/80 backdrop-blur-sm rounded-xl shadow-xl">
+      <main className="max-w-5xl mx-auto px-4 md:px-6 py-6 md:py-8 bg-white/80 backdrop-blur-sm rounded-xl shadow-xl">
         <ContentSection title="The Dispute Resolution Centre">
-          <div className="space-y-6 text-gray-700 leading-relaxed">
-            <p>
+          <div className="space-y-4 md:space-y-6 text-gray-700 leading-relaxed">
+            <p className="text-sm md:text-base">
               Welcome to The Dispute Resolution Centre situated in the vibrant
               heart of Nairobi, Kenya. We are a team of seasoned dispute
               resolution experts, each bringing years of experience and a deep
               commitment to helping individuals and organizations navigate
               conflicts with understanding and respect.
             </p>
-            <p>
+            <p className="text-sm md:text-base">
               At our Centre, we believe that every conflict, no matter how
               complex, has the potential for resolution. Our experienced team
               understands that conflict can arise in many forms — whether it's
@@ -83,7 +83,7 @@ export default function AboutPage() {
               communities — and we are here to guide you through the process of
               finding amicable solutions.
             </p>
-            <p>
+            <p className="text-sm md:text-base">
               With years of expertise in mediation, negotiation, and conflict
               management, we've built a reputation for helping clients find
               common ground and move forward with stronger, more collaborative
@@ -97,8 +97,8 @@ export default function AboutPage() {
         </ContentSection>
 
         <ContentSection title="Our Mission">
-          <div className="bg-blue-50 p-8 rounded-lg border-l-4 border-blue-500 shadow-inner">
-            <p className="text-xl text-blue-800 font-medium italic">
+          <div className="bg-blue-50 p-4 md:p-8 rounded-lg border-l-4 border-blue-500 shadow-inner">
+            <p className="text-lg md:text-xl text-blue-800 font-medium italic">
               "To transform conflict into opportunity through compassionate,
               expert-led dispute resolution that rebuilds relationships and
               creates lasting harmony."
@@ -107,14 +107,14 @@ export default function AboutPage() {
         </ContentSection>
 
         <ContentSection title="Our Services">
-          <div className="space-y-6 text-gray-700">
-            <p>
+          <div className="space-y-4 md:space-y-6 text-gray-700">
+            <p className="text-sm md:text-base">
               Our services range from individual mediation to corporate dispute
               management, training programs, and conflict resolution workshops.
               No matter the scale of the issue, we tailor our approach to fit
               your unique needs, offering personalized support at every step.
             </p>
-            <p>
+            <p className="text-sm md:text-base">
               Based in Nairobi but with a reach that extends across Kenya and
               beyond, we are passionate about creating spaces where people can
               rebuild trust, restore relationships, and work together to find
@@ -122,7 +122,7 @@ export default function AboutPage() {
               communication, and guidance, conflict can lead to growth and
               positive change.
             </p>
-            <p>
+            <p className="text-sm md:text-base">
               At the heart of everything we do is a deep belief in the power of
               resolution. Let us bring our years of expertise and compassion to
               help you find a way forward.
@@ -130,8 +130,8 @@ export default function AboutPage() {
           </div>
         </ContentSection>
 
-        <div className="text-center mt-12 py-6 border-t border-gray-200">
-          <p className="text-xl text-blue-700 font-semibold">
+        <div className="text-center mt-8 md:mt-12 py-4 md:py-6 border-t border-gray-200">
+          <p className="text-lg md:text-xl text-blue-700 font-semibold">
             Welcome to the heart of resolution.
           </p>
         </div>

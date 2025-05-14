@@ -62,7 +62,7 @@ const Button = ({
       disabled ? "opacity-60 cursor-not-allowed" : ""
     }`,
 
-    nav: `text-white hover:text-white  ${
+    nav: `text-white hover:text-white hover:bg-black/30 rounded-md ${
       disabled ? "opacity-60 cursor-not-allowed" : ""
     }`,
   };

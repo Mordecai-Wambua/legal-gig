@@ -45,20 +45,22 @@ const Slide = memo(({ image, isActive, title, subtitle, ariaLabel }) => (
       className="absolute inset-0 w-full h-full object-cover"
     />
     <div
-      className="absolute right-12 lg:right-24 top-1/2 transform -translate-y-1/2 text-right text-shadow-lg"
+      className="absolute inset-0 flex items-center justify-center md:justify-end p-4 md:p-8 lg:p-12"
       aria-live={isActive ? "polite" : "off"}
     >
-      <Heading
-        level={1}
-        variant="light"
-        serif={true}
-        className="m-0 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white"
-      >
-        {title}
-      </Heading>
-      <p className="mt-2 text-lg md:text-2xl lg:text-3xl text-white">
-        {subtitle}
-      </p>
+      <div className="text-center md:text-right md:mr-12 lg:mr-24 bg-black/30 md:bg-transparent backdrop-blur-sm md:backdrop-blur-none p-4 md:p-0 rounded-lg md:rounded-none max-w-sm md:max-w-md lg:max-w-lg">
+        <Heading
+          level={1}
+          variant="light"
+          serif={true}
+          className="m-0 text-xl sm:text-2xl md:text-4xl lg:text-5xl text-white drop-shadow-lg"
+        >
+          {title}
+        </Heading>
+        <p className="mt-2 md:mt-3 text-base sm:text-lg md:text-xl lg:text-3xl text-white drop-shadow-md">
+          {subtitle}
+        </p>
+      </div>
     </div>
   </div>
 ));

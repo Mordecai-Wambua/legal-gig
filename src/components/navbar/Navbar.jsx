@@ -15,10 +15,13 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const { pathname } = useLocation();
 
   const handleScroll = useCallback(() => {
     setIsScrolled(window.scrollY > 0);
+    // Store current scroll position
+    setScrollPosition(window.scrollY);
   }, []);
 
   // Close menu when route changes
@@ -31,13 +34,27 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  // Lock scroll when menu is open on mobile
+  // Lock scroll when menu is open on mobile and handle position fixing
   useEffect(() => {
-    document.body.style.overflow =
-      menuOpen && window.innerWidth < 768 ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
+    if (menuOpen && window.innerWidth < 768) {
+      // Store current scroll position
+      const scrollY = window.scrollY;
+
+      // Prevent scrolling
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
+      document.body.style.overflow = "hidden";
+
+      return () => {
+        // Restore scroll position when menu closes
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.width = "";
+        document.body.style.overflow = "";
+        window.scrollTo(0, scrollY);
+      };
+    }
   }, [menuOpen]);
 
   // Determines the appropriate navbar theme based on current page and scroll state
@@ -72,7 +89,7 @@ const Navbar = () => {
   const baseNav = "fixed top-0 left-0 w-full z-50 transition-all duration-300";
   const scrollStyles = isScrolled
     ? "bg-black/70 backdrop-blur-md py-2 shadow-lg"
-    : "bg-transparent py-5";
+    : "bg-transparent py-3 md:py-3";
   const navbarClasses = `${baseNav} ${scrollStyles}`;
 
   const toggleMenu = useCallback(() => {
@@ -80,17 +97,20 @@ const Navbar = () => {
     setMenuOpen((prev) => !prev);
   }, []);
 
+  // Hamburger button background styles
+  const hamburgerBgClass = isScrolled ? "bg-black/40" : "bg-black/60";
+
   return (
     <nav
       className={navbarClasses}
       role="navigation"
       aria-label="Primary Navigation"
     >
-      <div className="max-w-7xl mx-auto flex justify-between items-center px-6 md:px-12">
+      <div className="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 md:px-12">
         {/* Logo */}
         <Link
           to="/"
-          className={`text-3xl font-extrabold tracking-widest select-none ${logoColorClass}`}
+          className={`text-2xl md:text-3xl font-extrabold tracking-widest select-none ${logoColorClass}`}
           aria-label="Homepage"
         >
           LOGO
@@ -110,16 +130,16 @@ const Navbar = () => {
         {/* Hamburger Button (all <1000px) */}
         <Button
           variant={"nav"}
-          className="lg:hidden z-50 p-2"
+          className={`lg:hidden z-50 ${hamburgerBgClass}`}
           onClick={toggleMenu}
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
         >
           {menuOpen ? (
-            <RiCloseLargeFill size={28} />
+            <RiCloseLargeFill size={20} />
           ) : (
-            <GiHamburgerMenu size={28} />
+            <GiHamburgerMenu size={20} />
           )}
         </Button>
       </div>
@@ -127,30 +147,33 @@ const Navbar = () => {
       {/* Mobile Fullscreen Menu (<-md) */}
       <div
         id="mobile-menu"
-        className={`fixed inset-0 bg-black/80 backdrop-blur-md flex flex-col items-center justify-center space-y-6 text-xl font-semibold transition-transform duration-300 md:hidden ${
+        className={`fixed inset-0 top-0 left-0 w-full h-full bg-black/90 backdrop-blur-md flex flex-col items-center justify-center overflow-y-auto transition-transform duration-300 md:hidden ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
         role="menu"
+        style={{ height: "100vh" }}
       >
-        {NAV_LINKS.map(({ path, name }) => (
-          <NavLink
-            key={name}
-            to={path}
-            onClick={() => setMenuOpen(false)}
-            variant="light"
-            className="px-8 py-3 !text-xl hover:scale-105"
-            exact={path === "/"}
-            role="menuitem"
-          >
-            {name}
-          </NavLink>
-        ))}
+        <div className="w-full max-w-sm flex flex-col items-center bg-black/80 py-6 px-4 rounded-lg shadow-xl my-auto">
+          {NAV_LINKS.map(({ path, name }) => (
+            <NavLink
+              key={name}
+              to={path}
+              onClick={() => setMenuOpen(false)}
+              variant="light"
+              className="w-full text-center mb-3 px-8 py-3 !text-xl hover:scale-105 hover:bg-white/20 bg-black/50 rounded-md border border-white/10"
+              exact={path === "/"}
+              role="menuitem"
+            >
+              {name}
+            </NavLink>
+          ))}
+        </div>
       </div>
 
       {/* Mid-Size Strip Menu (md–lg) */}
       <div
         id="strip-menu"
-        className={`fixed backdrop-blur-md py-5 shadow-lg top-0 left-0 w-full z-40 transition-opacity duration-300 hidden md:flex lg:hidden justify-center items-center ${
+        className={`fixed backdrop-blur-md bg-black/90 py-4 shadow-lg top-0 left-0 w-full z-40 transition-opacity duration-300 hidden md:flex lg:hidden justify-center items-center ${
           menuOpen
             ? fadeOut
               ? "opacity-0 pointer-events-none"
@@ -159,14 +182,14 @@ const Navbar = () => {
         }`}
         onTransitionEnd={() => fadeOut && setMenuOpen(false)}
       >
-        <ul className="max-w-3xl mx-auto flex space-x-6 text-white text-lg font-semibold backdrop-blur-sm">
+        <ul className="max-w-3xl mx-auto flex flex-wrap justify-center gap-2 text-white text-lg font-semibold">
           {NAV_LINKS.map(({ path, name }) => (
             <li key={name}>
               <NavLink
                 to={path}
                 onClick={() => setFadeOut(true)}
                 variant="light"
-                className="hover:underline px-3 py-1 !text-lg hover:scale-105"
+                className="hover:underline px-3 py-1 !text-lg hover:scale-105 bg-black/40 rounded"
                 exact={path === "/"}
               >
                 {name}

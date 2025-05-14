@@ -6,27 +6,29 @@ import services from "../../data/servicesData";
 // Service card component
 const ServiceCard = ({ title, description, benefits, image, isReversed }) => {
   return (
-    <div className="flex flex-col md:flex-row items-center gap-8 mb-20 py-6 px-4 md:px-8 rounded-xl transition-all duration-300 hover:bg-white/70 hover:shadow-xl">
+    <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 mb-12 md:mb-20 py-4 md:py-6 px-3 md:px-8 rounded-xl transition-all duration-300 hover:bg-white/70 hover:shadow-xl">
       <div
-        className={`md:w-1/2 flex flex-col ${
+        className={`w-full md:w-1/2 flex flex-col ${
           isReversed ? "md:order-2" : "md:order-1"
         }`}
       >
         <div className="relative">
-          <div className="absolute -top-8 -left-4 text-8xl text-gray-200 font-serif">
-            “
+          <div className="absolute -top-4 md:-top-8 -left-2 md:-left-4 text-6xl md:text-8xl text-gray-200 font-serif">
+            "
           </div>
-          <h2 className="text-2xl md:text-3xl font-serif font-bold mb-4 text-gray-800">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-serif font-bold mb-3 md:mb-4 text-gray-800">
             {title}
           </h2>
-          <p className="text-gray-700 mb-6 leading-relaxed">{description}</p>
-          <ul className="space-y-3">
+          <p className="text-sm md:text-base text-gray-700 mb-4 md:mb-6 leading-relaxed">
+            {description}
+          </p>
+          <ul className="space-y-2 md:space-y-3">
             {benefits.map((benefit, index) => (
               <li key={index} className="flex items-start">
-                <span className="inline-flex items-center justify-center bg-blue-100 text-blue-600 h-6 w-6 rounded-full mr-3 mt-0.5 shrink-0">
+                <span className="inline-flex items-center justify-center bg-blue-100 text-blue-600 h-5 w-5 md:h-6 md:w-6 rounded-full mr-2 md:mr-3 mt-0.5 shrink-0">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
+                    className="h-3 w-3 md:h-4 md:w-4"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >
@@ -37,17 +39,23 @@ const ServiceCard = ({ title, description, benefits, image, isReversed }) => {
                     />
                   </svg>
                 </span>
-                <span className="text-gray-700">{benefit}</span>
+                <span className="text-sm md:text-base text-gray-700">
+                  {benefit}
+                </span>
               </li>
             ))}
           </ul>
-          <div className="absolute -bottom-8 -right-4 text-8xl text-gray-200 font-serif">
-            ”
+          <div className="absolute -bottom-4 md:-bottom-8 -right-2 md:-right-4 text-6xl md:text-8xl text-gray-200 font-serif">
+            "
           </div>
         </div>
       </div>
 
-      <div className={`md:w-1/2 ${isReversed ? "md:order-1" : "md:order-2"}`}>
+      <div
+        className={`w-full md:w-1/2 mt-6 md:mt-0 ${
+          isReversed ? "md:order-1" : "md:order-2"
+        }`}
+      >
         <div className="relative overflow-hidden rounded-lg shadow-md group transition-all duration-300 hover:shadow-xl transform hover:scale-[1.02]">
           <img
             src={image}
@@ -108,17 +116,17 @@ export default function ServicesPage() {
 
       <article className="min-h-screen bg-gray-50">
         {/* Hero Section */}
-        <header className="pt-32 pb-20 text-center bg-gradient-to-r from-blue-800 to-indigo-700 text-white relative overflow-hidden">
+        <header className="pt-24 md:pt-32 pb-16 md:pb-20 text-center bg-gradient-to-r from-blue-800 to-indigo-700 text-white relative overflow-hidden">
           {/* Decorative elements */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/20 rounded-full -mt-16 -mr-16"></div>
           <div className="absolute bottom-0 right-20 w-32 h-32 bg-indigo-500/20 rounded-full mb-10"></div>
           <div className="absolute top-20 left-10 w-48 h-48 bg-blue-500/10 rounded-full"></div>
 
           <div className="relative z-10 max-w-4xl mx-auto px-4">
-            <h1 className="text-4xl md:text-5xl font-serif font-bold mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold mb-4 md:mb-6">
               Our Services
             </h1>
-            <p className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed text-white/90">
+            <p className="text-base sm:text-lg md:text-xl max-w-3xl mx-auto leading-relaxed text-white/90">
               Are you experiencing family disputes, corporate disputes, land
               disputes, or any other conflict and would like to resolve it
               without the expensive, time-consuming court systems? At our
@@ -130,9 +138,9 @@ export default function ServicesPage() {
         </header>
 
         {/* Services Section */}
-        <section className="max-w-7xl mx-auto px-4 py-16 -mt-6">
-          <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-xl p-8 mb-20">
-            <h2 className="text-2xl md:text-3xl font-serif font-bold mb-8 text-center text-gray-800">
+        <section className="max-w-7xl mx-auto px-4 py-10 md:py-16 -mt-4 md:-mt-6">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-xl p-4 sm:p-6 md:p-8 mb-12 md:mb-20">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-serif font-bold mb-6 md:mb-8 text-center text-gray-800">
               How Our Dispute Resolution Methods Can Benefit You
             </h2>
 
@@ -151,17 +159,17 @@ export default function ServicesPage() {
           </div>
 
           {/* Contact CTA */}
-          <div className="bg-blue-50 rounded-xl p-8 text-center">
-            <h2 className="text-2xl font-serif font-bold mb-4 text-gray-800">
+          <div className="bg-blue-50 rounded-xl p-6 md:p-8 text-center">
+            <h2 className="text-xl md:text-2xl font-serif font-bold mb-3 md:mb-4 text-gray-800">
               Ready to Resolve Your Dispute?
             </h2>
-            <p className="text-gray-600 mb-6 max-w-3xl mx-auto">
+            <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6 max-w-3xl mx-auto">
               Our expert team is here to help you find the best resolution
               method for your specific situation.
             </p>
             <a
               href="/contact"
-              className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition-colors shadow-md hover:shadow-lg"
+              className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 md:py-3 px-6 md:px-8 rounded-lg transition-colors shadow-md hover:shadow-lg"
             >
               Contact Us Today
             </a>

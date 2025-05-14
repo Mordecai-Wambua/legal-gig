@@ -71,7 +71,7 @@ const NewsModal = ({ isOpen, onClose, news }) => {
 
   return (
     <div
-      className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 md:p-6 overflow-y-auto"
+      className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto"
       onClick={handleBackdropClick}
     >
       <div
@@ -90,17 +90,16 @@ const NewsModal = ({ isOpen, onClose, news }) => {
                 : news.image.default || ""
             }
             alt={news.title}
-            className="w-full h-64 object-cover"
-            style={{ mixBlendMode: "multiply" }}
+            className="w-full h-48 sm:h-64 object-cover"
           />
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+            className="absolute top-2 right-2 md:top-4 md:right-4 bg-black/60 hover:bg-black/80 text-white rounded-full p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
             aria-label="Close modal"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
+              className="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -115,8 +114,8 @@ const NewsModal = ({ isOpen, onClose, news }) => {
           </button>
         </div>
 
-        <div className="p-6 md:p-8">
-          <div className="mb-6">
+        <div className="p-4 sm:p-6 md:p-8">
+          <div className="mb-4 md:mb-6">
             <time
               dateTime={news.publishedDate}
               className="text-sm text-gray-500 mb-2 block"
@@ -125,15 +124,15 @@ const NewsModal = ({ isOpen, onClose, news }) => {
             </time>
             <h2
               id="modal-title"
-              className="text-2xl md:text-3xl font-bold text-gray-900 mb-4"
+              className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-3 md:mb-4"
             >
               {news.title}
             </h2>
-            <div className="flex items-center mb-6">
-              <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
+            <div className="flex items-center mb-4 md:mb-6">
+              <div className="h-9 w-9 md:h-10 md:w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
+                  className="h-4 w-4 md:h-5 md:w-5"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -153,11 +152,11 @@ const NewsModal = ({ isOpen, onClose, news }) => {
             </div>
 
             {news.tags && news.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-6">
+              <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
                 {news.tags.map((tag, index) => (
                   <span
                     key={index}
-                    className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-sm"
+                    className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-xs"
                   >
                     {tag}
                   </span>
@@ -166,8 +165,8 @@ const NewsModal = ({ isOpen, onClose, news }) => {
             )}
           </div>
 
-          <div className="prose prose-blue max-w-none">
-            <p className="text-lg mb-4">{news.description}</p>
+          <div className="prose prose-sm sm:prose md:prose-lg prose-blue max-w-none">
+            <p className="text-base sm:text-lg mb-4">{news.description}</p>
 
             {news.fullContent ? (
               <div
@@ -184,7 +183,7 @@ const NewsModal = ({ isOpen, onClose, news }) => {
             )}
 
             {news.location && (
-              <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+              <div className="mt-4 md:mt-6 p-3 md:p-4 bg-gray-50 rounded-lg">
                 <h3 className="text-md font-semibold flex items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -208,62 +207,9 @@ const NewsModal = ({ isOpen, onClose, news }) => {
                   </svg>
                   Location
                 </h3>
-                <p className="mt-1">{news.location}</p>
+                <p className="mt-2 text-gray-700">{news.location}</p>
               </div>
             )}
-
-            {news.eventDate && (
-              <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                <h3 className="text-md font-semibold flex items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 mr-2 text-gray-600"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                  Event Date
-                </h3>
-                <p className="mt-1">{news.eventDate}</p>
-              </div>
-            )}
-          </div>
-
-          <div className="mt-8 pt-6 border-t border-gray-200">
-            <a
-              href={news.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Visit Website
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="ml-2 -mr-1 h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </a>
-
-            <button
-              onClick={onClose}
-              className="ml-4 inline-flex items-center px-4 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Close
-            </button>
           </div>
         </div>
       </div>
@@ -280,81 +226,87 @@ NewsModal.propTypes = {
 // News Card Component
 const NewsItem = ({ news, onClick }) => (
   <div
-    className="relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-transform duration-300 hover:scale-105 bg-white cursor-pointer w-full h-full flex flex-col"
+    className="bg-white rounded-xl shadow-md overflow-hidden transition-all hover:shadow-lg cursor-pointer hover:translate-y-[-4px]"
     onClick={() => onClick(news)}
   >
-    <div className="relative pt-[56.25%]">
+    <div className="relative h-48 sm:h-52 overflow-hidden">
       <img
-        src={
-          typeof news.image === "string" ? news.image : news.image.default || ""
-        }
+        src={typeof news.image === "string" ? news.image : news.image.default}
         alt={news.title}
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{ mixBlendMode: "multiply" }}
-        loading="lazy"
-        width={300}
-        height={200}
+        className="w-full h-full object-cover"
       />
-      {news.category && (
-        <span className="absolute top-3 right-3 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">
-          {news.category}
+      {news.featured && (
+        <span className="absolute top-3 left-3 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">
+          Featured
         </span>
       )}
     </div>
 
-    <div className="p-5 flex-grow flex flex-col">
-      <time
-        dateTime={news.publishedDate}
-        className="text-xs text-gray-500 mb-2 block"
-      >
-        {formatDate(news.publishedDate)}
-      </time>
-      <h3 className="text-lg font-bold mb-2 text-gray-900 line-clamp-2">
+    <div className="p-4 sm:p-5">
+      <div className="flex justify-between items-start mb-3">
+        <time
+          dateTime={news.publishedDate}
+          className="block text-xs text-gray-500"
+        >
+          {formatDate(news.publishedDate)}
+        </time>
+        {news.category && (
+          <span className="inline-block bg-blue-50 text-blue-600 rounded-full px-2 py-1 text-xs">
+            {news.category}
+          </span>
+        )}
+      </div>
+
+      <h3 className="font-bold text-lg text-gray-800 mb-2 line-clamp-2">
         {news.title}
       </h3>
-      <p className="text-sm text-gray-600 mb-3 line-clamp-3 flex-grow">
+      <p className="text-gray-600 text-sm mb-4 line-clamp-3">
         {news.description}
       </p>
 
-      {news.tags && news.tags.length > 0 && (
-        <div className="flex flex-wrap gap-2 mt-3">
-          {news.tags.slice(0, 2).map((tag, index) => (
-            <span
-              key={index}
-              className="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-xs"
-            >
-              {tag}
-            </span>
-          ))}
-          {news.tags.length > 2 && (
-            <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded-full text-xs">
-              +{news.tags.length - 2}
-            </span>
-          )}
-        </div>
-      )}
-
-      <button
-        className="mt-4 text-blue-600 hover:text-blue-800 font-medium text-sm inline-flex items-center group"
-        onClick={(e) => {
-          e.stopPropagation();
-          onClick(news);
-        }}
-      >
-        Read more
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform"
-          viewBox="0 0 20 20"
-          fill="currentColor"
+      <div className="flex justify-between items-center mt-auto">
+        <button
+          className="text-blue-600 hover:text-blue-800 text-sm font-medium inline-flex items-center transition-colors"
+          onClick={(e) => {
+            e.stopPropagation();
+            onClick(news);
+          }}
         >
-          <path
-            fillRule="evenodd"
-            d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-            clipRule="evenodd"
-          />
-        </svg>
-      </button>
+          Read more
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4 ml-1"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M14 5l7 7m0 0l-7 7m7-7H3"
+            />
+          </svg>
+        </button>
+
+        {news.tags && news.tags.length > 0 && (
+          <div className="flex space-x-1">
+            {news.tags.slice(0, 2).map((tag, index) => (
+              <span
+                key={index}
+                className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded"
+              >
+                {tag}
+              </span>
+            ))}
+            {news.tags.length > 2 && (
+              <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
+                +{news.tags.length - 2}
+              </span>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   </div>
 );
@@ -373,68 +325,50 @@ const SearchBar = ({
   onSortChange,
   activeSort,
 }) => {
-  const filters = ["All", "Events", "News", "Workshops", "Press Releases"];
+  const filterOptions = ["All", "Workshop", "Webinar", "Event", "News"];
   const sortOptions = [
     { value: "newest", label: "Newest First" },
     { value: "oldest", label: "Oldest First" },
   ];
 
   return (
-    <div className="w-full max-w-5xl mx-auto mb-12">
-      <div className="relative mb-6">
+    <div className="mb-8">
+      <div className="relative mb-4">
         <input
           type="text"
-          placeholder="Search news and events..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full p-4 pl-12 pr-10 rounded-full border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-          aria-label="Search news"
+          placeholder="Search news and events..."
+          className="w-full p-3 pl-10 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
-        <svg
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            fillRule="evenodd"
-            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-            clipRule="evenodd"
-          />
-        </svg>
-        {searchQuery && (
-          <button
-            onClick={() => setSearchQuery("")}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-            aria-label="Clear search"
+        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <svg
+            className="w-5 h-5 text-gray-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
-        )}
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            ></path>
+          </svg>
+        </div>
       </div>
 
-      <div className="flex flex-col md:flex-row md:justify-between items-center gap-4 mb-6">
-        <div className="flex flex-wrap justify-center gap-2">
-          {filters.map((filter) => (
+      <div className="flex flex-col sm:flex-row justify-between gap-4">
+        <div className="flex flex-wrap gap-2">
+          {filterOptions.map((filter) => (
             <button
               key={filter}
               onClick={() => onFilterChange(filter)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                 activeFilter === filter
                   ? "bg-blue-600 text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
             >
               {filter}
@@ -442,8 +376,8 @@ const SearchBar = ({
           ))}
         </div>
 
-        <div className="flex items-center">
-          <label htmlFor="sort-order" className="mr-2 text-sm text-gray-700">
+        <div className="flex items-center space-x-2">
+          <label htmlFor="sort-order" className="text-sm text-gray-600">
             Sort by:
           </label>
           <select
@@ -569,24 +503,24 @@ export default function NewsPage() {
         })}
       </script>
 
-      <header className="w-full h-[40vh] bg-gradient-to-r from-blue-800 to-indigo-700 flex justify-center items-center text-center relative overflow-hidden">
+      <header className="w-full min-h-[200px] bg-gradient-to-r from-blue-800 to-indigo-700 flex justify-center items-center text-center relative overflow-hidden py-16 md:py-20">
         {/* Decorative elements */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/20 rounded-full -mt-16 -mr-16"></div>
         <div className="absolute bottom-0 right-20 w-32 h-32 bg-indigo-500/20 rounded-full mb-10"></div>
         <div className="absolute top-20 left-10 w-48 h-48 bg-blue-500/10 rounded-full"></div>
 
-        <div className="max-w-4xl px-4">
-          <h1 className="font-serif text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg relative z-10">
+        <div className="max-w-4xl px-4 py-6 md:py-8">
+          <h1 className="font-serif text-3xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg relative z-10">
             News & Events
           </h1>
-          <p className="text-white/90 text-lg md:text-xl max-w-2xl mx-auto">
+          <p className="text-white/90 text-base md:text-xl max-w-2xl mx-auto">
             Stay updated with the latest happenings, workshops, and
             announcements from The Dispute Resolution Centre
           </p>
         </div>
       </header>
 
-      <section className="w-full max-w-7xl mx-auto p-8 md:p-10 -mt-24 bg-gray-100 z-10 rounded-t-3xl shadow-xl">
+      <section className="w-full max-w-7xl mx-auto p-4 md:p-8 lg:p-10 -mt-6 md:-mt-12 bg-gray-100 z-10 rounded-t-3xl shadow-xl">
         <SearchBar
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
@@ -597,13 +531,13 @@ export default function NewsPage() {
         />
 
         {filteredNewsItems.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
             {filteredNewsItems.map((item) => (
               <NewsItem key={item.id} news={item} onClick={openNewsDetail} />
             ))}
           </div>
         ) : (
-          <div className="text-center py-16">
+          <div className="text-center py-8 md:py-16">
             <svg
               className="mx-auto h-12 w-12 text-gray-400"
               fill="none"

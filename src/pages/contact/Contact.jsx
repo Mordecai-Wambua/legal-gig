@@ -84,32 +84,34 @@ export default function ContactPage() {
       </div>
 
       {/* Page header */}
-      <header className="pt-32 pb-12 text-center">
-        <div className="bg-white/70 backdrop-blur-sm inline-block px-12 py-6 rounded-lg">
-          <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-wide text-gray-900">
+      <header className="pt-20 md:pt-32 pb-8 md:pb-12 text-center">
+        <div className="bg-white/70 backdrop-blur-sm inline-block px-8 md:px-12 py-4 md:py-6 rounded-lg">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-bold tracking-wide text-gray-900">
             CONTACT US
           </h1>
         </div>
       </header>
 
       {/* Main content container */}
-      <main className="max-w-6xl mx-auto px-6 py-8 bg-white/80 backdrop-blur-sm rounded-xl shadow-xl mb-16">
-        <div className="flex flex-col md:flex-row gap-10">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-6 md:py-8 bg-white/80 backdrop-blur-sm rounded-xl shadow-xl mb-8 md:mb-16">
+        <div className="flex flex-col md:flex-row gap-6 md:gap-10">
           {/* Left Section - Contact Information */}
           <div className="md:w-2/5">
-            <h2 className="text-3xl font-serif font-bold mb-6 text-gray-900 inline-block relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-1/2 after:h-1 after:bg-blue-600">
+            <h2 className="text-2xl md:text-3xl font-serif font-bold mb-4 md:mb-6 text-gray-900 inline-block relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-1/2 after:h-1 after:bg-blue-600">
               Have a question?
             </h2>
-            <div className="space-y-4 text-gray-700 leading-relaxed">
-              <p className="text-lg">
+            <div className="space-y-3 md:space-y-4 text-gray-700 leading-relaxed">
+              <p className="text-base md:text-lg">
                 We are here to help! Fill out the form or reach us via email or
                 phone. Our Customer Care Team is available to assist you.
               </p>
-              <p>Business Hours: Mon-Fri | 9 AM - 5 PM EAT.</p>
+              <p className="text-sm md:text-base">
+                Business Hours: Mon-Fri | 9 AM - 5 PM EAT.
+              </p>
             </div>
 
-            <div className="space-y-6 mt-10 bg-blue-50 p-8 rounded-lg">
-              <h3 className="font-bold text-xl text-gray-800 mb-4">
+            <div className="space-y-4 md:space-y-6 mt-6 md:mt-10 bg-blue-50 p-4 md:p-8 rounded-lg">
+              <h3 className="font-bold text-lg md:text-xl text-gray-800 mb-2 md:mb-4">
                 Connect With Us
               </h3>
               <a
@@ -117,20 +119,22 @@ export default function ContactPage() {
                 className="flex items-center text-gray-800 hover:text-blue-600 transition duration-300 group"
                 aria-label="Email"
               >
-                <span className="bg-blue-100 p-3 rounded-full mr-4 group-hover:bg-blue-200 transition duration-300">
-                  <FaEnvelope className="text-blue-600" />
+                <span className="bg-blue-100 p-2 md:p-3 rounded-full mr-3 md:mr-4 group-hover:bg-blue-200 transition duration-300">
+                  <FaEnvelope className="text-blue-600 text-sm md:text-base" />
                 </span>
-                <span>zackserick@gmail.com</span>
+                <span className="text-sm md:text-base">
+                  zackserick@gmail.com
+                </span>
               </a>
               <a
                 href="tel:+254759357030"
                 className="flex items-center text-gray-800 hover:text-blue-600 transition duration-300 group"
                 aria-label="Phone"
               >
-                <span className="bg-blue-100 p-3 rounded-full mr-4 group-hover:bg-blue-200 transition duration-300">
-                  <FaPhoneAlt className="text-blue-600" />
+                <span className="bg-blue-100 p-2 md:p-3 rounded-full mr-3 md:mr-4 group-hover:bg-blue-200 transition duration-300">
+                  <FaPhoneAlt className="text-blue-600 text-sm md:text-base" />
                 </span>
-                <span>+254 759 357030</span>
+                <span className="text-sm md:text-base">+254 759 357030</span>
               </a>
               <a
                 href="https://wa.link/xosc3z"
@@ -139,41 +143,41 @@ export default function ContactPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span className="bg-blue-100 p-3 rounded-full mr-4 group-hover:bg-blue-200 transition duration-300">
-                  <FaComment className="text-blue-600" />
+                <span className="bg-blue-100 p-2 md:p-3 rounded-full mr-3 md:mr-4 group-hover:bg-blue-200 transition duration-300">
+                  <FaComment className="text-blue-600 text-sm md:text-base" />
                 </span>
-                <span>Chat with us</span>
+                <span className="text-sm md:text-base">Chat with us</span>
               </a>
             </div>
           </div>
 
           {/* Right Section - Contact Form */}
-          <div className="md:w-3/5">
-            <h2 className="text-3xl font-serif font-bold mb-6 text-gray-900 inline-block relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-1/2 after:h-1 after:bg-blue-600">
+          <div className="md:w-3/5 mt-8 md:mt-0">
+            <h2 className="text-2xl md:text-3xl font-serif font-bold mb-4 md:mb-6 text-gray-900 inline-block relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-1/2 after:h-1 after:bg-blue-600">
               Send a Message
             </h2>
 
             {formStatus === "success" && (
-              <div className="mb-6 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded">
+              <div className="mb-4 md:mb-6 bg-green-100 border-l-4 border-green-500 text-green-700 p-3 md:p-4 rounded">
                 Thank you for your message! We'll get back to you soon.
               </div>
             )}
 
             {formStatus === "error" && (
-              <div className="mb-6 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded">
+              <div className="mb-4 md:mb-6 bg-red-100 border-l-4 border-red-500 text-red-700 p-3 md:p-4 rounded">
                 There was an error sending your message. Please try again later.
               </div>
             )}
 
             <form
               onSubmit={handleSubmit}
-              className="space-y-5 bg-white/70 p-6 rounded-lg"
+              className="space-y-4 md:space-y-5 bg-white/70 p-4 md:p-6 rounded-lg"
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
                 <div>
                   <label
                     htmlFor="firstName"
-                    className="block text-gray-700 mb-2"
+                    className="block text-gray-700 text-sm md:text-base mb-1 md:mb-2"
                   >
                     First Name *
                   </label>
@@ -185,13 +189,13 @@ export default function ContactPage() {
                     required
                     value={formData.firstName}
                     onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                    className="w-full p-2 md:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 text-sm md:text-base"
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="lastName"
-                    className="block text-gray-700 mb-2"
+                    className="block text-gray-700 text-sm md:text-base mb-1 md:mb-2"
                   >
                     Last Name *
                   </label>
@@ -203,13 +207,16 @@ export default function ContactPage() {
                     required
                     value={formData.lastName}
                     onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                    className="w-full p-2 md:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 text-sm md:text-base"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-gray-700 mb-2">
+                <label
+                  htmlFor="email"
+                  className="block text-gray-700 text-sm md:text-base mb-1 md:mb-2"
+                >
                   Email *
                 </label>
                 <input
@@ -220,12 +227,15 @@ export default function ContactPage() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                  className="w-full p-2 md:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 text-sm md:text-base"
                 />
               </div>
 
               <div>
-                <label htmlFor="phone" className="block text-gray-700 mb-2">
+                <label
+                  htmlFor="phone"
+                  className="block text-gray-700 text-sm md:text-base mb-1 md:mb-2"
+                >
                   Phone (Optional)
                 </label>
                 <input
@@ -235,12 +245,15 @@ export default function ContactPage() {
                   placeholder="Phone Number"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                  className="w-full p-2 md:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 text-sm md:text-base"
                 />
               </div>
 
               <div>
-                <label htmlFor="topic" className="block text-gray-700 mb-2">
+                <label
+                  htmlFor="topic"
+                  className="block text-gray-700 text-sm md:text-base mb-1 md:mb-2"
+                >
                   Topic *
                 </label>
                 <select
@@ -249,7 +262,7 @@ export default function ContactPage() {
                   required
                   value={formData.topic}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                  className="w-full p-2 md:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 text-sm md:text-base"
                 >
                   <option value="" disabled>
                     Select a topic
@@ -262,7 +275,10 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-gray-700 mb-2">
+                <label
+                  htmlFor="message"
+                  className="block text-gray-700 text-sm md:text-base mb-1 md:mb-2"
+                >
                   Message *
                 </label>
                 <textarea
@@ -272,7 +288,7 @@ export default function ContactPage() {
                   required
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 min-h-32 resize-y"
+                  className="w-full p-2 md:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 text-sm md:text-base min-h-32 resize-y"
                 ></textarea>
               </div>
 
